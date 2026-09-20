@@ -41,4 +41,8 @@ public final class DAOFactory {
     public static ReviewDAO reviewDAO() {
         return new ReviewDAOImpl(dataSource());
     }
+
+    public static WishlistDAO wishlistDAO() {
+        return new WishlistDAOImpl(dataSource());
+    }
 }

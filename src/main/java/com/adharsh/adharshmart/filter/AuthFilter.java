@@ -68,10 +68,12 @@ public class AuthFilter implements Filter {
     private boolean requiresAuth(String path) {
         return path.startsWith("/api/v1/cart") || path.startsWith("/api/v1/orders")
                 || path.startsWith("/api/v1/admin") || path.startsWith("/api/v1/seller")
+                || path.startsWith("/api/v1/wishlist")
                 || path.startsWith("/api/v1/reviews") // write path; public GET already returned above
                 || path.startsWith("/api/v1/products") // write path; public GET already returned above
                 || path.startsWith("/cart.jsp") || path.startsWith("/checkout.jsp")
-                || path.startsWith("/orders.jsp") || path.startsWith("/seller") || path.startsWith("/admin.jsp");
+                || path.startsWith("/orders.jsp") || path.startsWith("/seller") || path.startsWith("/admin.jsp")
+                || path.startsWith("/wishlist.jsp");
     }
 
     private void respondUnauthenticated(String path, HttpServletResponse response) throws IOException {

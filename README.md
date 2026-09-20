@@ -25,7 +25,7 @@ Browser (JSP + vanilla JS/fetch, Three.js hero, luxury CSS design system)
 Filter layer      -> EncodingFilter -> RequestIdFilter -> AuthFilter (session check)
         v
 Front Controller  -> per-resource Servlets (AuthServlet, ProductServlet, CartServlet,
-                      OrderServlet, ReviewServlet, AdminServlet, SellerServlet, ChatServlet)
+                      OrderServlet, ReviewServlet, AdminServlet, SellerServlet, WishlistServlet, ChatServlet)
         v
 Service layer     -> business logic, validation (no JDBC here)
         v
@@ -99,7 +99,7 @@ full place-order sequence, and [`docs/diagrams`](docs/diagrams) for the ER and u
 | O2 | Order status workflow (Pending→Confirmed→Shipped→Delivered) | Done |
 | O3 | Seller sales dashboard | Done |
 | O4 | AI chatbot | Done |
-| O1 | Wishlist | Not implemented (optional, deferred) |
+| O1 | Wishlist / save-for-later | Done |
 
 ## 5. Setup instructions
 
@@ -165,7 +165,6 @@ Load testing (10 concurrent users / 60s, Section 9) has been run — see
 
 ## 8. Known limitations
 
-- Wishlist (O1) is not implemented.
 - No live deployment yet — see [Deployment](#deployment).
 - Product imagery uses curated stock photography (Unsplash URLs) rather than seller-uploaded
   files, since the spec's `products` schema stores an `image_url` string, not a binary upload.

@@ -41,4 +41,8 @@ public final class ServiceFactory {
     public static AdminService adminService() {
         return new AdminServiceImpl(DAOFactory.userDAO(), DAOFactory.orderDAO(), DAOFactory.productDAO());
     }
+
+    public static WishlistService wishlistService() {
+        return new WishlistServiceImpl(DAOFactory.wishlistDAO(), DAOFactory.productDAO());
+    }
 }

@@ -20,6 +20,7 @@
                 <c:if test="${sessionScope.role == 'ADMIN'}">
                     <a class="icon-btn" href="${pageContext.request.contextPath}/admin.jsp">Admin</a>
                 </c:if>
+                <a class="icon-btn" href="${pageContext.request.contextPath}/wishlist.jsp">Saved</a>
                 <a class="icon-btn" href="${pageContext.request.contextPath}/orders.jsp">
                     <c:out value="${sessionScope.name}"/>
                 </a>

@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+- O1 wishlist/save-for-later: `wishlist_items` table (V4 migration), `WishlistDAO`/`WishlistService`/
+  `WishlistServlet` (`GET`/`POST`/`DELETE /api/v1/wishlist`), a "Save for later" button on the
+  product detail page, and a new `wishlist.jsp` page linked from the header nav.
 - Servlet-layer tests (`AuthServletTest`, `CartServletTest`) exercising real Mockito
   `HttpServletRequest`/`HttpServletResponse` against a real embedded datasource.
 - `SECURITY-CHECKLIST.md`: each Section 9 security item verified against the codebase.

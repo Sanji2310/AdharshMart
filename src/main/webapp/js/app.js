@@ -149,6 +149,15 @@
         }, [p.stockQty > 0 ? 'Add to bag' : 'Notify me']);
         if (p.stockQty <= 0) addBtn.disabled = true;
 
+        const saveBtn = el('button', {
+            class: 'btn btn-outline btn-block', style: 'margin-top:12px;',
+            onclick: async () => {
+                if (!getSessionUserId()) { window.location.href = 'login.jsp'; return; }
+                const r = await api('/api/v1/wishlist', 'POST', { productId: p.id });
+                toast(r.success ? 'Saved to wishlist' : (r.error ? r.error.message : 'Could not save'));
+            }
+        }, ['Save for later']);
+
         root.appendChild(el('div', { class: 'pd-image' }, [el('img', { src: p.imageUrl || '', alt: p.name })]));
         root.appendChild(el('div', {}, [
             el('p', { class: 'category' }, [p.category]),
@@ -161,7 +170,8 @@
                 qtyLabel,
                 el('button', { type: 'button', onclick: () => { qtyState.value++; qtyLabel.textContent = qtyState.value; } }, ['+'])
             ]),
-            addBtn
+            addBtn,
+            saveBtn
         ]));
 
         renderReviewForm(p.id);
@@ -266,7 +276,8 @@
         initCheckoutPage: () => global.AdharshMartCart && global.AdharshMartCart.initCheckoutPage(),
         initOrdersPage,
         initSellerDashboard,
-        initAdminPage
+        initAdminPage,
+        initWishlistPage
     };
 
     // ---------------- Order history (F6) ----------------
@@ -283,6 +294,41 @@
             return;
         }
         res.data.forEach((order) => list.appendChild(orderCard(order)));
+    }
+
+    // ---------------- Wishlist (O1) ----------------
+    async function initWishlistPage() {
+        const grid = document.getElementById('wishlist-grid');
+        const res = await api('/api/v1/wishlist', 'GET');
+        grid.innerHTML = '';
+        if (!res.success) {
+            grid.appendChild(el('p', { class: 'empty-state' }, [res.error ? res.error.message : 'Sign in to view your wishlist.']));
+            return;
+        }
+        if (res.data.length === 0) {
+            grid.appendChild(el('p', { class: 'empty-state' }, ['Nothing saved yet — tap "Save for later" on any product.']));
+            return;
+        }
+        res.data.forEach((item) => grid.appendChild(wishlistCard(item)));
+    }
+
+    function wishlistCard(item) {
+        const thumb = el('div', { class: 'thumb' }, [el('img', { src: item.imageUrl || '', alt: item.productName })]);
+        if (!item.inStock) thumb.appendChild(el('span', { class: 'badge-oos' }, ['Sold out']));
+        return el('div', { class: 'product-card' }, [
+            el('a', { href: 'product-detail.jsp?id=' + item.productId }, [
+                thumb,
+                el('p', { class: 'name' }, [item.productName]),
+                el('p', { class: 'price' }, [money(item.price)])
+            ]),
+            el('button', {
+                class: 'btn btn-sm', style: 'margin-top:12px;', type: 'button',
+                onclick: async () => {
+                    const r = await api('/api/v1/wishlist/' + item.id, 'DELETE');
+                    if (r.success) initWishlistPage();
+                }
+            }, ['Remove'])
+        ]);
     }
 
     function orderCard(order) {
