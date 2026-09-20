@@ -1,0 +1,62 @@
+@startuml D3-Sequence-Diagram
+title AdharshMart — Place Order Sequence (derived from Section 2 architecture)
+
+actor Buyer
+participant "Browser\n(checkout.jsp + fetch)" as Browser
+participant "AuthFilter" as Filter
+participant "OrderServlet\n(controller)" as Servlet
+participant "OrderServiceImpl\n(service)" as Service
+participant "CartDAO" as CartDAO
+participant "ProductDAO" as ProductDAO
+participant "MockPaymentStrategy" as Payment
+participant "OrderDAO\n(placeOrder, tx)" as OrderDAO
+database "H2 (via HikariCP)" as DB
+
+Buyer -> Browser : Click "Confirm mock payment & place order"
+Browser -> Filter : POST /api/v1/orders/checkout
+Filter -> Filter : session check (HttpSession has userId?)
+Filter -> Servlet : forward (authenticated)
+Servlet -> Service : checkout(buyerId)
+
+Service -> CartDAO : findByUser(buyerId)
+CartDAO -> DB : SELECT * FROM cart_items WHERE user_id = ?
+DB --> CartDAO : cart rows
+CartDAO --> Service : List<CartItem>
+
+loop for each cart item
+  Service -> ProductDAO : findById(productId)
+  ProductDAO -> DB : SELECT * FROM products WHERE id = ?
+  DB --> ProductDAO : product row
+  ProductDAO --> Service : Product
+end
+
+Service -> Payment : confirm(total)
+Payment --> Service : PaymentResult(approved=true)
+
+Service -> OrderDAO : placeOrder(order, items)
+activate OrderDAO
+OrderDAO -> DB : BEGIN TRANSACTION
+OrderDAO -> DB : INSERT INTO orders (...)
+DB --> OrderDAO : generated order id
+loop for each item
+  OrderDAO -> DB : UPDATE products SET stock_qty = stock_qty - ? WHERE id = ? AND stock_qty >= ?
+  DB --> OrderDAO : rows affected (0 or 1)
+  OrderDAO -> DB : INSERT INTO order_items (...)
+end
+alt any stock update affected 0 rows
+  OrderDAO -> DB : ROLLBACK
+  OrderDAO --> Service : throws InsufficientStockException
+else all succeeded
+  OrderDAO -> DB : COMMIT
+  OrderDAO --> Service : Order (with id)
+end
+deactivate OrderDAO
+
+Service -> CartDAO : clearByUser(buyerId)
+CartDAO -> DB : DELETE FROM cart_items WHERE user_id = ?
+
+Service --> Servlet : OrderResponseDTO
+Servlet --> Browser : 201 {"success":true,"data":{order...}}
+Browser --> Buyer : Redirect to orders.jsp, toast "Order placed"
+
+@enduml

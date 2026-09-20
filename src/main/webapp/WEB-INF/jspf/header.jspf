@@ -1,0 +1,36 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script>
+    window.APP_CONTEXT_PATH = "${pageContext.request.contextPath}";
+    window.APP_SESSION_USER_ID = <c:choose><c:when test="${not empty sessionScope.userId}">${sessionScope.userId}</c:when><c:otherwise>null</c:otherwise></c:choose>;
+</script>
+<header class="site-header">
+    <a class="wordmark" href="${pageContext.request.contextPath}/index.jsp">Adharsh<em>Mart</em></a>
+    <nav class="site-nav">
+        <a href="${pageContext.request.contextPath}/products.jsp">Shop</a>
+        <a href="${pageContext.request.contextPath}/products.jsp?category=Outerwear">Outerwear</a>
+        <a href="${pageContext.request.contextPath}/products.jsp?category=Footwear">Footwear</a>
+        <a href="${pageContext.request.contextPath}/products.jsp?category=Accessories">Accessories</a>
+    </nav>
+    <div class="nav-actions">
+        <c:choose>
+            <c:when test="${not empty sessionScope.userId}">
+                <c:if test="${sessionScope.role == 'SELLER'}">
+                    <a class="icon-btn" href="${pageContext.request.contextPath}/seller-dashboard.jsp">Dashboard</a>
+                </c:if>
+                <c:if test="${sessionScope.role == 'ADMIN'}">
+                    <a class="icon-btn" href="${pageContext.request.contextPath}/admin.jsp">Admin</a>
+                </c:if>
+                <a class="icon-btn" href="${pageContext.request.contextPath}/orders.jsp">
+                    <c:out value="${sessionScope.name}"/>
+                </a>
+                <button class="icon-btn" id="logout-btn" type="button">Logout</button>
+            </c:when>
+            <c:otherwise>
+                <a class="icon-btn" href="${pageContext.request.contextPath}/login.jsp">Login</a>
+            </c:otherwise>
+        </c:choose>
+        <a class="icon-btn" href="${pageContext.request.contextPath}/cart.jsp">
+            Bag <span class="cart-count" id="cart-count">0</span>
+        </a>
+    </div>
+</header>

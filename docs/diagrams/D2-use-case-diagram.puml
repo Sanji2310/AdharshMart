@@ -1,0 +1,49 @@
+@startuml D2-Use-Case-Diagram
+title AdharshMart — Use Case Diagram (derived from F1-F8, Section 1)
+left to right direction
+
+actor Buyer
+actor Seller
+actor Admin
+
+rectangle AdharshMart {
+  usecase "Register / Login (F1)" as UC1
+  usecase "Browse & search products (F3)" as UC2
+  usecase "Manage cart (F4)" as UC3
+  usecase "Checkout via mock payment (F5)" as UC4
+  usecase "View order history (F6)" as UC5
+  usecase "Rate & review products (F8)" as UC6
+  usecase "Chat with AI assistant (O4)" as UC7
+
+  usecase "Create/edit/delete listings (F2)" as UC8
+  usecase "View incoming orders (F6)" as UC9
+  usecase "Update order status (O2)" as UC10
+  usecase "View sales dashboard (O3)" as UC11
+
+  usecase "View all users & orders (F7)" as UC12
+  usecase "Moderate/remove listings (F7)" as UC13
+}
+
+Buyer --> UC1
+Buyer --> UC2
+Buyer --> UC3
+Buyer --> UC4
+Buyer --> UC5
+Buyer --> UC6
+Buyer --> UC7
+
+Seller --> UC1
+Seller --> UC8
+Seller --> UC9
+Seller --> UC10
+Seller --> UC11
+Seller --> UC7
+
+Admin --> UC12
+Admin --> UC13
+Admin --> UC7
+
+UC4 ..> UC3 : <<include>>
+UC6 ..> UC5 : <<extend (must be DELIVERED)>>
+
+@enduml

@@ -1,0 +1,14 @@
+<button class="chat-toggle" id="chat-toggle" type="button" aria-label="Chat with AdharshMart">&#10022;</button>
+<div class="chat-panel" id="chat-panel">
+    <div class="chat-header">
+        Ask AdharshMart
+        <span>Product &amp; order questions, answered instantly</span>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+        <div class="chat-msg bot">Hi! I can help with sizing, shipping, returns, and order status. What do you need?</div>
+    </div>
+    <form class="chat-input-row" id="chat-form">
+        <input type="text" id="chat-input" placeholder="Type a question…" maxlength="500" autocomplete="off">
+        <button type="submit">Send</button>
+    </form>
+</div>

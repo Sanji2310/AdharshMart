@@ -1,0 +1,46 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shop — AdharshMart</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+</head>
+<body>
+<%@ include file="/WEB-INF/jspf/header.jspf" %>
+
+<div class="container section">
+    <div class="section-head">
+        <div>
+            <p class="eyebrow">The full collection</p>
+            <h2 id="page-title">Shop all</h2>
+        </div>
+    </div>
+    <form class="filters" id="filter-form">
+        <input type="text" id="keyword" name="keyword" placeholder="Search products…">
+        <select id="category" name="category">
+            <option value="">All categories</option>
+            <option value="Outerwear">Outerwear</option>
+            <option value="Dresses">Dresses</option>
+            <option value="Bags">Bags</option>
+            <option value="Knitwear">Knitwear</option>
+            <option value="Footwear">Footwear</option>
+            <option value="Trousers">Trousers</option>
+            <option value="Accessories">Accessories</option>
+        </select>
+        <button type="submit" class="btn btn-outline">Filter</button>
+    </form>
+    <div class="product-grid" id="product-grid">
+        <p class="empty-state">Loading…</p>
+    </div>
+</div>
+
+<%@ include file="/WEB-INF/jspf/footer.jspf" %>
+<%@ include file="/WEB-INF/jspf/chat-widget.jspf" %>
+<script src="${pageContext.request.contextPath}/js/app.js"></script>
+<script src="${pageContext.request.contextPath}/js/cart.js"></script>
+<script src="${pageContext.request.contextPath}/js/chat-widget.js"></script>
+<script>AdharshMart.initProductsPage();</script>
+</body>
+</html>
