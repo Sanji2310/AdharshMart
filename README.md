@@ -6,6 +6,8 @@ inspired storefront on top.
 
 **Live deployment:** _not yet deployed — see [Deployment](#deployment) below._
 **Design diagrams:** [`docs/diagrams`](docs/diagrams) (ER, use case, sequence — PlantUML source).
+**Figma templates:** [AdharshMart — Luxury Storefront Templates](https://www.figma.com/design/82fdKf5uatmH4Sjtwrawam) —
+Homepage, Product Listing, and Product Detail, built to the same design tokens as `css/main.css`.
 
 ---
 
