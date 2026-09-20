@@ -1,6 +1,10 @@
 # Changelog
 
 ## Unreleased
+- Fixed mojibake in footer.jspf (a JSP static-include encoding gap) — see web.xml jsp-config.
+- Typography: swapped the display face from Fraunces to Bodoni Moda (a high-contrast,
+  fashion-masthead serif) and tightened letter-spacing/tracking on headlines, the wordmark,
+  and nav links for a more overtly editorial feel.
 - Swapped hand-picked Unsplash photo IDs (never verified against a live network fetch, so
   their validity was unknown) for deterministic picsum.photos seed URLs, which are guaranteed
   to resolve — in `seed.sql` and `index.jsp`'s category tiles.
