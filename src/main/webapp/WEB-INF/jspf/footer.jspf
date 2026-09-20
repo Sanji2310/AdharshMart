@@ -3,8 +3,8 @@
         <div class="footer-grid">
             <div>
                 <p class="wordmark" style="font-size:20px;margin-bottom:12px;">Adharsh<em>Mart</em></p>
-                <p style="max-width:32ch;">A multi-seller marketplace for considered, well-made things — built as an
-                    Anna University R2025 Java capstone (Servlets · JDBC · Tomcat · H2).</p>
+                <p style="max-width:32ch;">A multi-seller marketplace for considered, well-made things &mdash; built as an
+                    Anna University R2025 Java capstone (Servlets &middot; JDBC &middot; Tomcat &middot; H2).</p>
             </div>
             <div>
                 <h4>Shop</h4>
