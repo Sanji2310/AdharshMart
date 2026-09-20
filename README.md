@@ -146,19 +146,26 @@ setup): provision a VM, install JDK 17 + Tomcat 9, run H2 in server mode
 
 ## 7. Security checklist
 
+Full item-by-item verification (with the actual grep commands run) lives in
+[`SECURITY-CHECKLIST.md`](SECURITY-CHECKLIST.md). Summary:
+
 - Every query uses `PreparedStatement` — verified via `grep -rn "Statement)" src/`.
 - Passwords are bcrypt-hashed (`jBCrypt`), never logged.
-- All protected servlets/pages are gated by `AuthFilter` (session check).
+- All protected servlets/pages are gated by `AuthFilter` (session check), covered by
+  `AuthServletTest`/`CartServletTest`.
 - Session id is regenerated on login (`AuthServlet.login`).
 - User-supplied content is rendered via `textContent`/DOM APIs client-side and JSTL `<c:out>`
   server-side — never string-concatenated into HTML.
 - Error pages (`404.jsp`, `500.jsp`) never expose stack traces.
 - `config.properties`/`.env` are gitignored; only `.example` templates are committed.
 
+Load testing (10 concurrent users / 60s, Section 9) has been run — see
+[`docs/LOAD_TEST.md`](docs/LOAD_TEST.md) (zero errors, p99 ~10.5ms) and
+[`scripts/load_test.py`](scripts/load_test.py) to reproduce.
+
 ## 8. Known limitations
 
 - Wishlist (O1) is not implemented.
-- Load testing (Apache JMeter/`ab`, Section 9) has not yet been run against a deployed instance.
 - No live deployment yet — see [Deployment](#deployment).
 - Product imagery uses curated stock photography (Unsplash URLs) rather than seller-uploaded
   files, since the spec's `products` schema stores an `image_url` string, not a binary upload.
