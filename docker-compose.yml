@@ -1,0 +1,25 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      # File-based H2 (not in-memory) so data survives container restarts,
+      # per the deployment spec's "data persisting across restarts" requirement.
+      DB_URL: "jdbc:h2:file:/data/adharshmart;AUTO_SERVER=TRUE"
+      DB_USERNAME: "sa"
+      DB_PASSWORD: ""
+      # Chatbot: defaults to the mock provider. Set AI_CHATBOT_PROVIDER=gemini
+      # and AI_CHATBOT_APIKEY in a .env file (never commit it) to use Gemini.
+      AI_CHATBOT_PROVIDER: "mock"
+    volumes:
+      - adharshmart-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/adharshmart/api/v1/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  adharshmart-data:
