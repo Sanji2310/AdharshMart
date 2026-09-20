@@ -26,6 +26,10 @@
   --font-display: 'Bodoni Moda', 'Didot', Georgia, serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --max-width: 1400px;
+  /* A single rosette/mandala motif — concentric rings + a twelve-petal ring — reused as the
+     hero centerpiece and the sitewide corner ornaments. One inline SVG data URI: no network
+     request, no JS, nothing that degrades if a CDN is unreachable. */
+  --mandala-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23b08d57' stroke-width='0.6'%3E%3Ccircle cx='100' cy='100' r='94'/%3E%3Ccircle cx='100' cy='100' r='76'/%3E%3Ccircle cx='100' cy='100' r='58'/%3E%3Ccircle cx='100' cy='100' r='14'/%3E%3Cg stroke-width='0.5'%3E%3Cellipse cx='100' cy='42' rx='6' ry='32'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(30 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(60 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(90 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(120 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(150 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(180 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(210 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(240 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(270 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(300 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(330 100 100)'/%3E%3C/g%3E%3Cg stroke-width='0.4'%3E%3Ccircle cx='100' cy='24' r='4'/%3E%3Ccircle cx='100' cy='176' r='4'/%3E%3Ccircle cx='24' cy='100' r='4'/%3E%3Ccircle cx='176' cy='100' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 @media (prefers-color-scheme: dark) {
@@ -56,10 +60,64 @@ body {
   font-size: 15px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* Signature top hairline — a thin black->gold->black gradient run across the very top
+   of every page. Zero dependencies (pure CSS), so it's the one "elite" touch guaranteed
+   to render identically everywhere, on every network, with no font/JS/asset involved. */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--ink) 0%, var(--gold) 50%, var(--ink) 100%);
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Fine paper-grain texture — the same restrained noise finish editorial fashion sites use
+   under flat color fields. Inline SVG data URI: no network request, so it's as guaranteed
+   as the hairline above. Sits above the page background, below all real content. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Everything that isn't the two pseudo-elements above needs to sit on its own stacking
+   context so it isn't accidentally drawn under the grain layer. */
+.site-header, .hero, .section, .site-footer, .chat-toggle, .chat-panel, .form-shell {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mandala corner ornaments — the sitewide decorative touch every page shares (replaces the
+   old WebGL ambient background: same "framed" signature, none of the failure modes). */
+.mandala-corner {
+  position: fixed;
+  width: 380px;
+  height: 380px;
+  background-image: var(--mandala-svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 1;
+}
+.mandala-corner--tr { top: -80px; right: -80px; }
+.mandala-corner--bl { bottom: -80px; left: -80px; transform: rotate(180deg); }
+@media (max-width: 720px) {
+  .mandala-corner { width: 220px; height: 220px; }
 }
 
 a { color: inherit; text-decoration: none; }
-img { max-width: 100%; display: block; }
+img { max-width: 100%; display: block; background: var(--paper-dim); }
 button { font-family: inherit; cursor: pointer; }
 
 h1, h2, h3, .display {
@@ -166,12 +224,29 @@ h1, h2, h3, .display {
   display: flex;
   align-items: flex-end;
   overflow: hidden;
-  background: var(--ink);
+  background:
+    radial-gradient(circle at 76% 30%, rgba(176, 141, 87, 0.24), transparent 55%),
+    linear-gradient(160deg, #1c1c1a 0%, var(--ink) 55%, #050504 100%);
   color: var(--paper);
 }
-#hero-canvas {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  opacity: 0.9;
+/* Large rosette watermark standing in for photography — see README for why: no reliably
+   sourced, verified-accurate "people wearing the product" photo is available yet (blocked on
+   image-generation credits and on external stock-photo access from this build environment). */
+.hero-motif {
+  position: absolute;
+  top: 50%;
+  right: -8%;
+  width: min(66vw, 860px);
+  height: min(66vw, 860px);
+  transform: translateY(-50%);
+  background-image: var(--mandala-svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.18;
+  pointer-events: none;
+}
+@media (max-width: 900px) {
+  .hero-motif { opacity: 0.12; right: -20%; }
 }
 .hero-content {
   position: relative;

@@ -21,7 +21,7 @@ gateway), and an AI chatbot answers product/order FAQ questions. Full feature li
 ## 2. Architecture
 
 ```
-Browser (JSP + vanilla JS/fetch, Three.js hero, luxury CSS design system)
+Browser (JSP + vanilla JS/fetch, CSS/SVG mandala motif, luxury CSS design system)
         | HTTP request
         v
 Filter layer      -> EncodingFilter -> RequestIdFilter -> AuthFilter (session check)
@@ -78,7 +78,7 @@ full place-order sequence, and [`docs/diagrams`](docs/diagrams) for the ER and u
 | Database | H2 — embedded (`jdbc:h2:mem:...`) for dev/test, server mode for deployment |
 | Connection pooling | HikariCP |
 | View layer | JSP + JSTL (page shell, session state) + vanilla JS/`fetch()` (API-backed content) |
-| 3D/visual | Three.js (decorative homepage hero only — no app state) |
+| Decorative motif | Pure CSS/inline-SVG mandala watermark (hero + sitewide corners) — no JS, no network dependency |
 | JSON | Gson, fixed `{success, data, error}` envelope under `/api/v1` |
 | Password hashing | jBCrypt |
 | AI chatbot | Pluggable `ChatProvider`: `mock` (default) or `gemini` |
@@ -172,6 +172,13 @@ Load testing (10 concurrent users / 60s, Section 9) has been run — see
   (deterministic per-product via a seeded URL — `image_url` is a plain string column, not a
   binary upload, per the spec's schema), not photos of the actual products. Swap `seed.sql`'s
   `image_url` values for real product photography when available.
+- The homepage hero has no photograph either, for the same reason: no verified, license-clear
+  photo of "people wearing the product" was obtainable in this build environment (AI
+  image-generation is blocked on 0 account credits; direct stock-photo fetches are blocked by
+  network egress policy). It currently carries a decorative mandala watermark instead of a
+  placeholder photo, so nothing fabricated is presented as real. To finish this: source a
+  licensed editorial photograph and set it as `.hero`'s `background-image` in `main.css`
+  (`.hero-motif` can stay layered on top at low opacity, or be removed).
 
 ## 9. Repository layout
 

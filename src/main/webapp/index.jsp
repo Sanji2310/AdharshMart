@@ -12,7 +12,7 @@
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 
 <section class="hero">
-    <canvas id="hero-canvas"></canvas>
+    <div class="hero-motif" aria-hidden="true"></div>
     <div class="hero-content">
         <p class="eyebrow">New season — Autumn/Winter</p>
         <h1 class="display">Considered goods,<br>made to last.</h1>
@@ -68,10 +68,6 @@
 <%@ include file="/WEB-INF/jspf/footer.jspf" %>
 <%@ include file="/WEB-INF/jspf/chat-widget.jspf" %>
 
-<script type="importmap">
-{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
-</script>
-<script type="module" src="${pageContext.request.contextPath}/js/three-hero.js"></script>
 <script src="${pageContext.request.contextPath}/js/app.js"></script>
 <script src="${pageContext.request.contextPath}/js/cart.js"></script>
 <script src="${pageContext.request.contextPath}/js/chat-widget.js"></script>

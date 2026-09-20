@@ -263,6 +263,15 @@
         });
     }
 
+    // Image quality: a failed/slow product image degrades to a clean neutral panel (the same
+    // --paper-dim background every .thumb already shows while loading) instead of the browser's
+    // broken-image glyph + alt text — 'error' doesn't bubble, so this listens in the capture phase.
+    document.addEventListener('error', (e) => {
+        if (e.target.tagName === 'IMG') {
+            e.target.style.visibility = 'hidden';
+        }
+    }, true);
+
     document.addEventListener('DOMContentLoaded', () => {
         wireLogout();
         wireTabs();

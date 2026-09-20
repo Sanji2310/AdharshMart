@@ -1,6 +1,19 @@
 # Changelog
 
 ## Unreleased
+- Removed the Three.js wireframe hero/ambient-background scenes sitewide (they also turned out
+  to have never actually rendered in this build environment — the CDN they loaded from was
+  blocked by the sandbox's network policy). Replaced with a zero-dependency, pure CSS/inline-SVG
+  mandala/rosette motif: a large watermark in the homepage hero and matching corner ornaments on
+  every other page, so the "elite" cross-page treatment survives regardless of network/WebGL
+  availability. `js/three-hero.js`, `js/ambient-bg.js`, and the self-hosted `js/vendor/three.module.min.js`
+  are deleted as unused. The homepage hero's black panel still isn't a product photograph — no
+  verified, license-clear "people wearing the product" photo was obtainable in this environment
+  (Higgsfield generation is blocked on 0 account credits; live stock-photo fetches are blocked by
+  network egress policy) — see README for how to swap in a real photo once one is sourced.
+- Global image-error handling: a broken/unreachable product `<img>` now degrades to the same
+  neutral panel every thumbnail already shows while loading, instead of the browser's broken-image
+  glyph and alt text.
 - Fixed mojibake in footer.jspf (a JSP static-include encoding gap) — see web.xml jsp-config.
 - Typography: swapped the display face from Fraunces to Bodoni Moda (a high-contrast,
   fashion-masthead serif) and tightened letter-spacing/tracking on headlines, the wordmark,
