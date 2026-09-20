@@ -168,8 +168,10 @@ Load testing (10 concurrent users / 60s, Section 9) has been run — see
 ## 8. Known limitations
 
 - No live deployment yet — see [Deployment](#deployment).
-- Product imagery uses curated stock photography (Unsplash URLs) rather than seller-uploaded
-  files, since the spec's `products` schema stores an `image_url` string, not a binary upload.
+- Product imagery is generic placeholder photography from [picsum.photos](https://picsum.photos)
+  (deterministic per-product via a seeded URL — `image_url` is a plain string column, not a
+  binary upload, per the spec's schema), not photos of the actual products. Swap `seed.sql`'s
+  `image_url` values for real product photography when available.
 
 ## 9. Repository layout
 

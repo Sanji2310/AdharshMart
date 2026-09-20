@@ -11,15 +11,18 @@ MERGE INTO users (id, name, email, password_hash, role, created_at) KEY (id) VAL
 
 ALTER TABLE users ALTER COLUMN id RESTART WITH 4;
 
+-- Product imagery: picsum.photos seed-based URLs. Deterministic (same seed -> same
+-- image on every request) and guaranteed to resolve — no guessed Unsplash photo IDs.
+-- Swap for real product photography whenever that's available (see README §8).
 MERGE INTO products (id, seller_id, name, description, price, stock_qty, category, image_url, active, created_at) KEY (id) VALUES
-  (1, 2, 'Atelier Wool Overcoat', 'Double-faced wool overcoat, hand-finished seams, tonal horn buttons.', 890.00, 12, 'Outerwear', 'https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=900&q=80', TRUE, CURRENT_TIMESTAMP),
-  (2, 2, 'Silk Column Dress',     'Bias-cut silk charmeuse column dress in ink black.', 620.00, 8, 'Dresses', 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=900&q=80', TRUE, CURRENT_TIMESTAMP),
-  (3, 2, 'Leather Structured Tote', 'Vegetable-tanned calfskin tote with brushed brass hardware.', 1150.00, 6, 'Bags', 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=900&q=80', TRUE, CURRENT_TIMESTAMP),
-  (4, 2, 'Cashmere Crewneck', 'Pure Mongolian cashmere crewneck, seamless knit.', 340.00, 20, 'Knitwear', 'https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=900&q=80', TRUE, CURRENT_TIMESTAMP),
-  (5, 2, 'Court Sneaker — Blanc', 'Minimalist leather court sneaker with vulcanized sole.', 410.00, 25, 'Footwear', 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=900&q=80', TRUE, CURRENT_TIMESTAMP),
-  (6, 2, 'Tailored Wool Trouser', 'High-rise straight-leg trouser in Italian wool twill.', 295.00, 18, 'Trousers', 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=900&q=80', TRUE, CURRENT_TIMESTAMP),
-  (7, 2, 'Signature Aviator Sunglasses', 'Titanium frame, gradient polarized lens.', 265.00, 30, 'Accessories', 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=900&q=80', TRUE, CURRENT_TIMESTAMP),
-  (8, 2, 'Performance Runner — Volt', 'Engineered knit upper, responsive foam midsole.', 175.00, 40, 'Footwear', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=80', TRUE, CURRENT_TIMESTAMP);
+  (1, 2, 'Atelier Wool Overcoat', 'Double-faced wool overcoat, hand-finished seams, tonal horn buttons.', 890.00, 12, 'Outerwear', 'https://picsum.photos/seed/adharshmart-wool-overcoat/900/1125', TRUE, CURRENT_TIMESTAMP),
+  (2, 2, 'Silk Column Dress',     'Bias-cut silk charmeuse column dress in ink black.', 620.00, 8, 'Dresses', 'https://picsum.photos/seed/adharshmart-silk-dress/900/1125', TRUE, CURRENT_TIMESTAMP),
+  (3, 2, 'Leather Structured Tote', 'Vegetable-tanned calfskin tote with brushed brass hardware.', 1150.00, 6, 'Bags', 'https://picsum.photos/seed/adharshmart-leather-tote/900/1125', TRUE, CURRENT_TIMESTAMP),
+  (4, 2, 'Cashmere Crewneck', 'Pure Mongolian cashmere crewneck, seamless knit.', 340.00, 20, 'Knitwear', 'https://picsum.photos/seed/adharshmart-cashmere-crewneck/900/1125', TRUE, CURRENT_TIMESTAMP),
+  (5, 2, 'Court Sneaker — Blanc', 'Minimalist leather court sneaker with vulcanized sole.', 410.00, 25, 'Footwear', 'https://picsum.photos/seed/adharshmart-court-sneaker/900/1125', TRUE, CURRENT_TIMESTAMP),
+  (6, 2, 'Tailored Wool Trouser', 'High-rise straight-leg trouser in Italian wool twill.', 295.00, 18, 'Trousers', 'https://picsum.photos/seed/adharshmart-wool-trouser/900/1125', TRUE, CURRENT_TIMESTAMP),
+  (7, 2, 'Signature Aviator Sunglasses', 'Titanium frame, gradient polarized lens.', 265.00, 30, 'Accessories', 'https://picsum.photos/seed/adharshmart-aviator-sunglasses/900/1125', TRUE, CURRENT_TIMESTAMP),
+  (8, 2, 'Performance Runner — Volt', 'Engineered knit upper, responsive foam midsole.', 175.00, 40, 'Footwear', 'https://picsum.photos/seed/adharshmart-performance-runner/900/1125', TRUE, CURRENT_TIMESTAMP);
 
 ALTER TABLE products ALTER COLUMN id RESTART WITH 9;
 
