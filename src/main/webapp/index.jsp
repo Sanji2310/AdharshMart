@@ -47,19 +47,19 @@
     </div>
     <div class="product-grid">
         <a class="product-card" href="products.jsp?category=Outerwear">
-            <div class="thumb"><img src="https://picsum.photos/seed/adharshmart-wool-overcoat/700/875" alt="Outerwear"></div>
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&amp;w=700&amp;fit=crop&amp;auto=format" alt="Outerwear"></div>
             <p class="name">Outerwear</p>
         </a>
         <a class="product-card" href="products.jsp?category=Footwear">
-            <div class="thumb"><img src="https://picsum.photos/seed/adharshmart-court-sneaker/700/875" alt="Footwear"></div>
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1608379743498-ac08f6d022ba?q=80&amp;w=700&amp;fit=crop&amp;auto=format" alt="Footwear"></div>
             <p class="name">Footwear</p>
         </a>
         <a class="product-card" href="products.jsp?category=Bags">
-            <div class="thumb"><img src="https://picsum.photos/seed/adharshmart-leather-tote/700/875" alt="Bags"></div>
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1624687943971-e86af76d57de?q=80&amp;w=700&amp;fit=crop&amp;auto=format" alt="Bags"></div>
             <p class="name">Bags</p>
         </a>
         <a class="product-card" href="products.jsp?category=Knitwear">
-            <div class="thumb"><img src="https://picsum.photos/seed/adharshmart-cashmere-crewneck/700/875" alt="Knitwear"></div>
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1604573824419-289a9a10672c?q=80&amp;w=700&amp;fit=crop&amp;auto=format" alt="Knitwear"></div>
             <p class="name">Knitwear</p>
         </a>
     </div>

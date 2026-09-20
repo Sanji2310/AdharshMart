@@ -1,16 +1,29 @@
 # Changelog
 
 ## Unreleased
+- Real product/hero photography via the Unsplash API (MCP connector — not Higgsfield, and not a
+  raw web fetch, both of which are blocked in this build environment): all 8 product `image_url`
+  values, the 4 homepage category tiles, and the hero background are now genuine, individually
+  searched Unsplash photos (e.g. "gold-framed aviator-style sunglasses" for the aviator sunglasses
+  listing) rather than generic picsum.photos placeholders. Photos match each product's *category*
+  (stock marketplace photography of the same style of garment), not the literal listed item —
+  full attribution (required by the Unsplash API guidelines) is on the new `photo-credits.jsp`
+  page, linked from every page's footer.
+- Admin inventory: a new "Inventory" tab on `/admin.jsp` (`GET /api/v1/admin/products`) giving
+  admins marketplace-wide visibility into every product across every seller — price, stock,
+  seller, status — with a low-stock flag and a working "Remove" button wired to the
+  moderation endpoint that already existed server-side but had no UI trigger before this.
+- Seller restocking: the seller dashboard's Listings table was previously read-only after a
+  product was published — no way to update stock/price or reactivate a removed listing without
+  calling the API directly. Added inline Edit (price/stock) and Deactivate/Reactivate actions,
+  backed by the existing `PUT`/`DELETE /api/v1/products/{id}` endpoints.
 - Removed the Three.js wireframe hero/ambient-background scenes sitewide (they also turned out
   to have never actually rendered in this build environment — the CDN they loaded from was
   blocked by the sandbox's network policy). Replaced with a zero-dependency, pure CSS/inline-SVG
   mandala/rosette motif: a large watermark in the homepage hero and matching corner ornaments on
   every other page, so the "elite" cross-page treatment survives regardless of network/WebGL
   availability. `js/three-hero.js`, `js/ambient-bg.js`, and the self-hosted `js/vendor/three.module.min.js`
-  are deleted as unused. The homepage hero's black panel still isn't a product photograph — no
-  verified, license-clear "people wearing the product" photo was obtainable in this environment
-  (Higgsfield generation is blocked on 0 account credits; live stock-photo fetches are blocked by
-  network egress policy) — see README for how to swap in a real photo once one is sourced.
+  are deleted as unused.
 - Global image-error handling: a broken/unreachable product `<img>` now degrades to the same
   neutral panel every thumbnail already shows while loading, instead of the browser's broken-image
   glyph and alt text.

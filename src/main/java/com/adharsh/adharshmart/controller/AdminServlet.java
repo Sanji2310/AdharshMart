@@ -9,9 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * F7 — admin view of all users/orders and listing moderation.
+ * F7 — admin view of all users/orders/inventory and listing moderation.
  * GET    /api/v1/admin/users            -> all users
  * GET    /api/v1/admin/orders           -> all orders
+ * GET    /api/v1/admin/products         -> marketplace-wide inventory (every seller, active or not)
  * DELETE /api/v1/admin/products/{id}    -> remove/moderate a listing
  */
 @WebServlet("/api/v1/admin/*")
@@ -27,6 +28,7 @@ public class AdminServlet extends BaseServlet {
             switch (pathInfo) {
                 case "/users" -> writeOk(resp, HttpServletResponse.SC_OK, adminService.listUsers());
                 case "/orders" -> writeOk(resp, HttpServletResponse.SC_OK, adminService.listOrders());
+                case "/products" -> writeOk(resp, HttpServletResponse.SC_OK, adminService.listAllProducts());
                 default -> writeError(resp, HttpServletResponse.SC_NOT_FOUND, "NOT_FOUND", "Unknown admin resource");
             }
         } catch (Exception e) {

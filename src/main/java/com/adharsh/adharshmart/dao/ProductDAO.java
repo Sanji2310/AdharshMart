@@ -21,5 +21,8 @@ public interface ProductDAO {
 
     List<Product> findAllActive() throws SQLException;
 
+    /** Every product across every seller, active or not — admin inventory oversight (F7). */
+    List<Product> findAllForAdmin() throws SQLException;
+
     boolean decrementStock(Long productId, int quantity) throws SQLException;
 }

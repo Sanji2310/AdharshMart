@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class ProductDTO {
     private Long id;
     private Long sellerId;
+    private String sellerName;
     private String name;
     private String description;
     private BigDecimal price;
@@ -65,6 +66,15 @@ public class ProductDTO {
 
     public void setSellerId(Long sellerId) {
         this.sellerId = sellerId;
+    }
+
+    /** Populated only by the admin marketplace-wide listing (F7) — null on every other response. */
+    public String getSellerName() {
+        return sellerName;
+    }
+
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
     }
 
     public String getName() {

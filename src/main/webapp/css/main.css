@@ -218,6 +218,9 @@ h1, h2, h3, .display {
 .btn-sm { padding: 9px 16px; font-size: 11px; }
 
 /* ---------- Hero ---------- */
+/* Editorial portrait sourced live via the Unsplash API (photo by Florian Cordier — full
+   attribution in footer.jspf per Unsplash's API guidelines). A dark gradient sits over it for
+   text legibility; the mandala watermark rides on top as the same accent every other page uses. */
 .hero {
   position: relative;
   min-height: 88vh;
@@ -225,13 +228,11 @@ h1, h2, h3, .display {
   align-items: flex-end;
   overflow: hidden;
   background:
-    radial-gradient(circle at 76% 30%, rgba(176, 141, 87, 0.24), transparent 55%),
+    linear-gradient(100deg, var(--ink) 0%, rgba(10, 10, 10, 0.72) 40%, rgba(10, 10, 10, 0.32) 100%),
+    url("https://images.unsplash.com/photo-1695048994291-2e96839a0a3a?q=80&w=1600&fit=crop&auto=format") center 22% / cover no-repeat,
     linear-gradient(160deg, #1c1c1a 0%, var(--ink) 55%, #050504 100%);
   color: var(--paper);
 }
-/* Large rosette watermark standing in for photography — see README for why: no reliably
-   sourced, verified-accurate "people wearing the product" photo is available yet (blocked on
-   image-generation credits and on external stock-photo access from this build environment). */
 .hero-motif {
   position: absolute;
   top: 50%;
@@ -242,11 +243,13 @@ h1, h2, h3, .display {
   background-image: var(--mandala-svg);
   background-repeat: no-repeat;
   background-size: contain;
-  opacity: 0.18;
+  opacity: 0.14;
   pointer-events: none;
+  mix-blend-mode: overlay;
 }
 @media (max-width: 900px) {
-  .hero-motif { opacity: 0.12; right: -20%; }
+  .hero-motif { opacity: 0.1; right: -20%; }
+  .hero { background-position: center 15%; }
 }
 .hero-content {
   position: relative;

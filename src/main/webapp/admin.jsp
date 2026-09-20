@@ -25,6 +25,7 @@
     <div class="tabs">
         <button class="tab-btn active" data-tab="users">Users</button>
         <button class="tab-btn" data-tab="orders">Orders</button>
+        <button class="tab-btn" data-tab="products">Inventory</button>
     </div>
 
     <div class="tab-panel active" id="tab-users">
@@ -32,6 +33,9 @@
     </div>
     <div class="tab-panel" id="tab-orders">
         <div id="admin-orders"><p class="empty-state">Loading…</p></div>
+    </div>
+    <div class="tab-panel" id="tab-products">
+        <div id="admin-products"><p class="empty-state">Loading…</p></div>
     </div>
 </div>
 

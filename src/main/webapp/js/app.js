@@ -394,16 +394,82 @@
             return;
         }
         const table = el('table', { class: 'data-table' }, [
-            el('thead', {}, [el('tr', {}, ['Name', 'Price', 'Stock', 'Category', 'Status'].map((h) => el('th', {}, [h])))]),
-            el('tbody', {}, res.data.map((p) => el('tr', {}, [
-                el('td', {}, [p.name]),
-                el('td', {}, [money(p.price)]),
-                el('td', {}, [String(p.stockQty)]),
-                el('td', {}, [p.category]),
-                el('td', {}, [p.active ? 'Active' : 'Removed'])
-            ])))
+            el('thead', {}, [el('tr', {}, ['Name', 'Price', 'Stock', 'Category', 'Status', 'Action'].map((h) => el('th', {}, [h])))]),
+            el('tbody', {}, res.data.map(sellerListingRow))
         ]);
         container.appendChild(table);
+    }
+
+    // Restocking/repricing an existing listing (as opposed to publishing a new one) — inline
+    // edit on the Listings row, backed by the same PUT /api/v1/products/{id} the "Add listing"
+    // form's servlet already exposes. Deactivate/Reactivate reuses DELETE (soft-delete) and this
+    // same PUT with active toggled, respectively.
+    function sellerListingRow(p) {
+        const priceCell = el('td', {}, [money(p.price)]);
+        const stockCell = el('td', {}, [String(p.stockQty)]);
+        const statusCell = el('td', {}, [p.active ? 'Active' : 'Removed']);
+        const row = el('tr', {}, [
+            el('td', {}, [p.name]), priceCell, stockCell, el('td', {}, [p.category]), statusCell
+        ]);
+
+        function renderViewMode() {
+            priceCell.innerHTML = '';
+            priceCell.appendChild(document.createTextNode(money(p.price)));
+            stockCell.innerHTML = '';
+            stockCell.appendChild(document.createTextNode(String(p.stockQty)));
+            actionCell.innerHTML = '';
+            actionCell.appendChild(el('div', { style: 'display:flex;gap:8px;' }, [
+                el('button', { class: 'btn btn-sm', onclick: renderEditMode }, ['Edit']),
+                el('button', { class: 'btn btn-sm', onclick: toggleActive }, [p.active ? 'Deactivate' : 'Reactivate'])
+            ]));
+        }
+
+        function renderEditMode() {
+            const priceInput = el('input', { type: 'number', step: '0.01', min: '0', value: String(p.price), style: 'width:90px;' });
+            const stockInput = el('input', { type: 'number', min: '0', value: String(p.stockQty), style: 'width:70px;' });
+            priceCell.innerHTML = '';
+            priceCell.appendChild(priceInput);
+            stockCell.innerHTML = '';
+            stockCell.appendChild(stockInput);
+            actionCell.innerHTML = '';
+            actionCell.appendChild(el('div', { style: 'display:flex;gap:8px;' }, [
+                el('button', {
+                    class: 'btn btn-sm btn-primary', onclick: async () => {
+                        const body = Object.assign({}, p, { price: parseFloat(priceInput.value), stockQty: parseInt(stockInput.value, 10) });
+                        const r = await api('/api/v1/products/' + p.id, 'PUT', body);
+                        if (r.success) {
+                            p.price = body.price;
+                            p.stockQty = body.stockQty;
+                            toast('Listing updated');
+                            renderViewMode();
+                        } else {
+                            toast(r.error ? r.error.message : 'Could not update listing');
+                        }
+                    }
+                }, ['Save']),
+                el('button', { class: 'btn btn-sm', onclick: renderViewMode }, ['Cancel'])
+            ]));
+        }
+
+        async function toggleActive() {
+            const r = p.active
+                ? await api('/api/v1/products/' + p.id, 'DELETE')
+                : await api('/api/v1/products/' + p.id, 'PUT', Object.assign({}, p, { active: true }));
+            if (r.success) {
+                p.active = !p.active;
+                statusCell.innerHTML = '';
+                statusCell.appendChild(document.createTextNode(p.active ? 'Active' : 'Removed'));
+                toast(p.active ? 'Listing reactivated' : 'Listing deactivated');
+                renderViewMode();
+            } else {
+                toast(r.error ? r.error.message : 'Could not update listing');
+            }
+        }
+
+        const actionCell = el('td', {}, []);
+        row.appendChild(actionCell);
+        renderViewMode();
+        return row;
     }
 
     function renderSellerOrders(res) {
@@ -474,12 +540,14 @@
 
     // ---------------- Admin (F7) ----------------
     async function initAdminPage() {
-        const [usersRes, ordersRes] = await Promise.all([
+        const [usersRes, ordersRes, productsRes] = await Promise.all([
             api('/api/v1/admin/users', 'GET'),
-            api('/api/v1/admin/orders', 'GET')
+            api('/api/v1/admin/orders', 'GET'),
+            api('/api/v1/admin/products', 'GET')
         ]);
         renderAdminUsers(usersRes);
         renderAdminOrders(ordersRes);
+        renderAdminProducts(productsRes);
     }
 
     function renderAdminUsers(res) {
@@ -513,5 +581,49 @@
             return;
         }
         res.data.forEach((order) => container.appendChild(orderCard(order)));
+    }
+
+    const LOW_STOCK_THRESHOLD = 5;
+
+    function renderAdminProducts(res) {
+        const container = document.getElementById('admin-products');
+        container.innerHTML = '';
+        if (!res.success) {
+            container.appendChild(el('p', { class: 'empty-state' }, [res.error ? res.error.message : 'Admins only.']));
+            return;
+        }
+        if (res.data.length === 0) {
+            container.appendChild(el('p', { class: 'empty-state' }, ['No products listed yet.']));
+            return;
+        }
+        const lowStockCount = res.data.filter((p) => p.active && p.stockQty <= LOW_STOCK_THRESHOLD).length;
+        if (lowStockCount > 0) {
+            container.appendChild(el('p', { class: 'form-error', style: 'margin-bottom:16px;' },
+                [lowStockCount + ' listing(s) at ' + LOW_STOCK_THRESHOLD + ' units or fewer — restock is the seller’s action, from their own dashboard.']));
+        }
+        const table = el('table', { class: 'data-table' }, [
+            el('thead', {}, [el('tr', {}, ['Product', 'Seller', 'Price', 'Stock', 'Category', 'Status', 'Action'].map((h) => el('th', {}, [h])))]),
+            el('tbody', {}, res.data.map((p) => {
+                const lowStock = p.active && p.stockQty <= LOW_STOCK_THRESHOLD;
+                const removeBtn = p.active ? el('button', {
+                    class: 'btn btn-sm', onclick: async () => {
+                        if (!confirm('Remove "' + p.name + '" from the marketplace?')) return;
+                        const r = await api('/api/v1/admin/products/' + p.id, 'DELETE');
+                        if (r.success) { toast('Listing removed'); initAdminPage(); }
+                        else toast(r.error ? r.error.message : 'Could not remove listing');
+                    }
+                }, ['Remove']) : el('span', {}, ['—']);
+                return el('tr', {}, [
+                    el('td', {}, [p.name]),
+                    el('td', {}, [p.sellerName || ('#' + p.sellerId)]),
+                    el('td', {}, [money(p.price)]),
+                    el('td', { style: lowStock ? 'color:var(--danger);font-weight:600;' : '' }, [String(p.stockQty)]),
+                    el('td', {}, [p.category]),
+                    el('td', {}, [p.active ? 'Active' : 'Removed']),
+                    el('td', {}, [removeBtn])
+                ]);
+            }))
+        ]);
+        container.appendChild(table);
     }
 })(window);

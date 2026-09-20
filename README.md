@@ -91,12 +91,12 @@ full place-order sequence, and [`docs/diagrams`](docs/diagrams) for the ER and u
 | ID | Requirement | Status |
 |---|---|---|
 | F1 | Register/login, BUYER/SELLER roles, seeded ADMIN | Done |
-| F2 | Seller product CRUD | Done |
+| F2 | Seller product CRUD (create, edit, restock/reprice, deactivate/reactivate) | Done |
 | F3 | Buyer browse/search/filter | Done |
 | F4 | Cart add/update/remove + running total | Done |
 | F5 | Checkout via mock payment | Done |
 | F6 | Buyer order history, seller incoming orders | Done |
-| F7 | Admin: view users/orders, moderate listings | Done |
+| F7 | Admin: view users/orders, marketplace-wide inventory, moderate listings | Done |
 | F8 | Reviews/ratings on delivered orders | Done |
 | O2 | Order status workflow (Pending→Confirmed→Shipped→Delivered) | Done |
 | O3 | Seller sales dashboard | Done |
@@ -168,17 +168,13 @@ Load testing (10 concurrent users / 60s, Section 9) has been run — see
 ## 8. Known limitations
 
 - No live deployment yet — see [Deployment](#deployment).
-- Product imagery is generic placeholder photography from [picsum.photos](https://picsum.photos)
-  (deterministic per-product via a seeded URL — `image_url` is a plain string column, not a
-  binary upload, per the spec's schema), not photos of the actual products. Swap `seed.sql`'s
-  `image_url` values for real product photography when available.
-- The homepage hero has no photograph either, for the same reason: no verified, license-clear
-  photo of "people wearing the product" was obtainable in this build environment (AI
-  image-generation is blocked on 0 account credits; direct stock-photo fetches are blocked by
-  network egress policy). It currently carries a decorative mandala watermark instead of a
-  placeholder photo, so nothing fabricated is presented as real. To finish this: source a
-  licensed editorial photograph and set it as `.hero`'s `background-image` in `main.css`
-  (`.hero-motif` can stay layered on top at low opacity, or be removed).
+- Product and hero imagery is real photography sourced from the Unsplash API (`image_url` is a
+  plain string column, not a binary upload, per the spec's schema) — matched by product
+  *category* (e.g. a real photo of aviator sunglasses for the Aviator Sunglasses listing), not the
+  literal SKU, since these are stock marketplace sellers rather than a single photographed
+  catalog. Full attribution is on `/photo-credits.jsp` (linked from every footer), required by the
+  Unsplash API guidelines. Swap `seed.sql`'s `image_url` values for the seller's own product
+  photography once real sellers are onboarded.
 
 ## 9. Repository layout
 

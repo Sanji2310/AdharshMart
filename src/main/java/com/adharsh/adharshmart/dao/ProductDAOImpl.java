@@ -141,6 +141,20 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
+    public List<Product> findAllForAdmin() throws SQLException {
+        String sql = "SELECT * FROM products ORDER BY created_at DESC";
+        List<Product> products = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                products.add(map(rs));
+            }
+        }
+        return products;
+    }
+
+    @Override
     public boolean decrementStock(Long productId, int quantity) throws SQLException {
         String sql = "UPDATE products SET stock_qty = stock_qty - ? WHERE id = ? AND stock_qty >= ?";
         try (Connection conn = dataSource.getConnection();

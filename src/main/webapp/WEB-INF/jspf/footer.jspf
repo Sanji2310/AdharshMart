@@ -22,6 +22,7 @@
                 <h4>Support</h4>
                 <a href="#" onclick="document.getElementById('chat-toggle').click(); return false;">Chat with us</a>
                 <a href="${pageContext.request.contextPath}/api/v1/health" target="_blank">System status</a>
+                <a href="${pageContext.request.contextPath}/photo-credits.jsp">Photo credits</a>
             </div>
         </div>
         <div class="footer-bottom">

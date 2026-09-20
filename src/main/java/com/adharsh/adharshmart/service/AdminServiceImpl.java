@@ -4,11 +4,14 @@ import com.adharsh.adharshmart.dao.OrderDAO;
 import com.adharsh.adharshmart.dao.ProductDAO;
 import com.adharsh.adharshmart.dao.UserDAO;
 import com.adharsh.adharshmart.dto.OrderResponseDTO;
+import com.adharsh.adharshmart.dto.ProductDTO;
 import com.adharsh.adharshmart.dto.UserResponseDTO;
 import com.adharsh.adharshmart.exception.DataAccessException;
 import com.adharsh.adharshmart.exception.NotFoundException;
 import com.adharsh.adharshmart.model.Order;
 import com.adharsh.adharshmart.model.OrderItem;
+import com.adharsh.adharshmart.model.Product;
+import com.adharsh.adharshmart.model.User;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,6 +60,22 @@ public class AdminServiceImpl implements AdminService {
             return result;
         } catch (SQLException e) {
             throw new DataAccessException("Failed to list orders", e);
+        }
+    }
+
+    @Override
+    public List<ProductDTO> listAllProducts() {
+        try {
+            List<Product> products = productDAO.findAllForAdmin();
+            List<ProductDTO> result = new java.util.ArrayList<>();
+            for (Product p : products) {
+                ProductDTO dto = ProductDTO.from(p);
+                userDAO.findById(p.getSellerId()).map(User::getName).ifPresent(dto::setSellerName);
+                result.add(dto);
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new DataAccessException("Failed to list products", e);
         }
     }
 
