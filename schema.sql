@@ -80,6 +80,18 @@ CREATE TABLE IF NOT EXISTS reviews (
 CREATE INDEX IF NOT EXISTS idx_reviews_product_id ON reviews (product_id);
 CREATE INDEX IF NOT EXISTS idx_reviews_user_id ON reviews (user_id);
 
+-- Additional gallery images per product (products.image_url stays the primary/cover shot,
+-- used everywhere a single thumbnail is needed — grid cards, cart lines, etc). sort_order
+-- controls left-to-right thumbnail order on the product detail page.
+CREATE TABLE IF NOT EXISTS product_images (
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT NOT NULL,
+    image_url  VARCHAR(500) NOT NULL,
+    sort_order INT NOT NULL DEFAULT 0,
+    CONSTRAINT fk_product_images_product FOREIGN KEY (product_id) REFERENCES products (id)
+);
+CREATE INDEX IF NOT EXISTS idx_product_images_product_id ON product_images (product_id);
+
 CREATE TABLE IF NOT EXISTS wishlist_items (
     id         BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id    BIGINT NOT NULL,

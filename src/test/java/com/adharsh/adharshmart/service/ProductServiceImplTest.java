@@ -7,6 +7,7 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 import com.adharsh.adharshmart.dao.ProductDAO;
+import com.adharsh.adharshmart.dao.ProductImageDAO;
 import com.adharsh.adharshmart.dao.ReviewDAO;
 import com.adharsh.adharshmart.dto.ProductDTO;
 import com.adharsh.adharshmart.exception.NotFoundException;
@@ -15,6 +16,7 @@ import com.adharsh.adharshmart.exception.ValidationException;
 import com.adharsh.adharshmart.model.Product;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,12 +31,15 @@ class ProductServiceImplTest {
     private ProductDAO productDAO;
     @Mock
     private ReviewDAO reviewDAO;
+    @Mock
+    private ProductImageDAO productImageDAO;
 
     private ProductService productService;
 
     @BeforeEach
-    void setUp() {
-        productService = new ProductServiceImpl(productDAO, reviewDAO);
+    void setUp() throws Exception {
+        productService = new ProductServiceImpl(productDAO, reviewDAO, productImageDAO);
+        lenient().when(productImageDAO.findByProduct(anyLong())).thenReturn(List.of());
     }
 
     @Test

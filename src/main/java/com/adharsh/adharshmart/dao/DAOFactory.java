@@ -30,6 +30,10 @@ public final class DAOFactory {
         return new ProductDAOImpl(dataSource());
     }
 
+    public static ProductImageDAO productImageDAO() {
+        return new ProductImageDAOImpl(dataSource());
+    }
+
     public static CartDAO cartDAO() {
         return new CartDAOImpl(dataSource());
     }

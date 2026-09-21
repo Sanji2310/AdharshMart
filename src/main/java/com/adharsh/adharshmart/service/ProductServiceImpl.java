@@ -1,6 +1,7 @@
 package com.adharsh.adharshmart.service;
 
 import com.adharsh.adharshmart.dao.ProductDAO;
+import com.adharsh.adharshmart.dao.ProductImageDAO;
 import com.adharsh.adharshmart.dao.ReviewDAO;
 import com.adharsh.adharshmart.dto.ProductDTO;
 import com.adharsh.adharshmart.exception.DataAccessException;
@@ -8,20 +9,25 @@ import com.adharsh.adharshmart.exception.NotFoundException;
 import com.adharsh.adharshmart.exception.UnauthorizedException;
 import com.adharsh.adharshmart.exception.ValidationException;
 import com.adharsh.adharshmart.model.Product;
+import com.adharsh.adharshmart.model.ProductImage;
 import com.adharsh.adharshmart.util.ValidationUtil;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/** Business rules for F2/F3 — depends on {@link ProductDAO} and {@link ReviewDAO} interfaces. */
+/** Business rules for F2/F3 — depends on {@link ProductDAO}, {@link ReviewDAO} and
+ *  {@link ProductImageDAO} interfaces. */
 public class ProductServiceImpl implements ProductService {
 
     private final ProductDAO productDAO;
     private final ReviewDAO reviewDAO;
+    private final ProductImageDAO productImageDAO;
 
-    public ProductServiceImpl(ProductDAO productDAO, ReviewDAO reviewDAO) {
+    public ProductServiceImpl(ProductDAO productDAO, ReviewDAO reviewDAO, ProductImageDAO productImageDAO) {
         this.productDAO = productDAO;
         this.reviewDAO = reviewDAO;
+        this.productImageDAO = productImageDAO;
     }
 
     @Override
@@ -116,8 +122,14 @@ public class ProductServiceImpl implements ProductService {
         try {
             dto.setAverageRating(reviewDAO.averageRating(dto.getId()));
             dto.setReviewCount(reviewDAO.countForProduct(dto.getId()));
+            List<String> gallery = new ArrayList<>();
+            gallery.add(dto.getImageUrl());
+            for (ProductImage img : productImageDAO.findByProduct(dto.getId())) {
+                gallery.add(img.getImageUrl());
+            }
+            dto.setImages(gallery);
         } catch (SQLException e) {
-            throw new DataAccessException("Failed to load review aggregates", e);
+            throw new DataAccessException("Failed to load product detail", e);
         }
         return dto;
     }

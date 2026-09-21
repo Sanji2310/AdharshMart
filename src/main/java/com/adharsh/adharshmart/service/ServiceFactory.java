@@ -22,7 +22,7 @@ public final class ServiceFactory {
     }
 
     public static ProductService productService() {
-        return new ProductServiceImpl(DAOFactory.productDAO(), DAOFactory.reviewDAO());
+        return new ProductServiceImpl(DAOFactory.productDAO(), DAOFactory.reviewDAO(), DAOFactory.productImageDAO());
     }
 
     public static CartService cartService() {

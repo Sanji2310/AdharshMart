@@ -3,6 +3,7 @@ package com.adharsh.adharshmart.dto;
 import com.adharsh.adharshmart.model.Product;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /** Request/response shape for product listings (F2, F3). */
 public class ProductDTO {
@@ -16,6 +17,8 @@ public class ProductDTO {
     private int stockQty;
     private String category;
     private String imageUrl;
+    /** Full gallery: imageUrl (primary) followed by every product_images row, in sort_order. */
+    private List<String> images;
     private boolean active;
     private LocalDateTime createdAt;
     private double averageRating;
@@ -134,6 +137,14 @@ public class ProductDTO {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
     public boolean isActive() {

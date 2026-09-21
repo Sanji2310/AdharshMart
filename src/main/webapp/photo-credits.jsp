@@ -18,7 +18,10 @@
         <a href="https://unsplash.com/?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Unsplash</a>,
         used under the <a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>.
         Photos are stock imagery in the same category as each listing (not photography of the
-        literal product) &mdash; see the project README for context.
+        literal product) &mdash; see the project README for context. Each product detail page also
+        shows 2&ndash;3 additional gallery photos, sourced the same way. Full per-photo attribution
+        below currently covers the original 8-product catalog; attribution rows for the expanded
+        catalog and the new gallery photos are a tracked follow-up (README &sect;8).
     </p>
     <table class="data-table">
         <thead><tr><th>Used for</th><th>Photographer</th><th>Source</th></tr></thead>

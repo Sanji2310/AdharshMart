@@ -175,6 +175,10 @@ Load testing (10 concurrent users / 60s, Section 9) has been run — see
   catalog. Full attribution is on `/photo-credits.jsp` (linked from every footer), required by the
   Unsplash API guidelines. Swap `seed.sql`'s `image_url` values for the seller's own product
   photography once real sellers are onboarded.
+- Product detail gallery images (`product_images` table) are, likewise, real category/style-matched
+  Unsplash photography rather than genuine multi-angle shots of one physical item — that kind of
+  verified "same item, different angle" set only exists once a seller photographs their own stock.
+  Swap these rows for real seller photography the same way as `image_url` above.
 
 ## 9. Repository layout
 

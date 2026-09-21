@@ -1,6 +1,16 @@
 # Changelog
 
 ## Unreleased
+- Product detail gallery: every product now shows 3-4 images on its detail page (previously just
+  the single card thumbnail) — a new `product_images` table (`db/migrations/V6`), `ProductImageDAO`/
+  service-layer enrichment, and a click-to-swap thumbnail strip on `product-detail.jsp`. Each
+  product's 2-3 additional photos were individually searched on Unsplash to match its category and
+  style, the same sourcing standard as the primary image. One honest caveat: genuine "100% match,
+  verified different angles of the exact same physical item" photo sets don't exist in free stock
+  photography — that only exists for real product photography a seller shoots themselves. What's
+  here instead is the closest achievable substitute for a demo catalog: real, non-generic,
+  category/style-matched photography (texture close-ups, worn/styled shots) rather than a single
+  repeated image or unrelated stock filler.
 - Catalog expanded from 8 to 25 products across 9 categories (added Formalwear and Shirts),
   each with a real, individually-searched Unsplash photo — not a repeated or guessed image.
   Verified every product has a non-empty `imageUrl` and no two products share an image.
