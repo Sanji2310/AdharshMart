@@ -92,7 +92,7 @@ body::after {
 
 /* Everything that isn't the two pseudo-elements above needs to sit on its own stacking
    context so it isn't accidentally drawn under the grain layer. */
-.site-header, .hero, .section, .site-footer, .chat-toggle, .chat-panel, .form-shell {
+.site-header, .hero, .section, .site-footer, .chat-toggle, .chat-panel, .form-shell, .category-banner {
   position: relative;
   z-index: 2;
 }
@@ -157,13 +157,16 @@ h1, h2, h3, .display {
   border-bottom: 1px solid var(--line);
 }
 
+/* Tracked-out, thin-weight uppercase serif — the wordmark pattern shared by Dior, Chanel,
+   Celine, Loewe: restraint over decoration is what reads as "expensive" at logotype scale. */
 .wordmark {
   font-family: var(--font-display);
-  font-size: 24px;
-  letter-spacing: 0.01em;
-  font-weight: 600;
+  font-size: 21px;
+  letter-spacing: 0.16em;
+  font-weight: 400;
+  text-transform: uppercase;
 }
-.wordmark em { color: var(--gold); font-style: italic; }
+.wordmark em { color: var(--gold); font-style: italic; font-weight: 500; }
 
 .site-nav { display: flex; gap: 32px; align-items: center; }
 .site-nav a {
@@ -307,6 +310,43 @@ h1, h2, h3, .display {
   background: var(--ink); color: var(--paper);
   font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
   padding: 5px 10px; border-radius: var(--radius);
+}
+.badge-sale {
+  position: absolute; top: 12px; left: 12px;
+  background: var(--danger); color: #fff;
+  font-size: 10px; letter-spacing: 0.06em; font-weight: 600;
+  padding: 5px 10px; border-radius: var(--radius);
+}
+.price-sale { display: flex; align-items: baseline; gap: 8px; }
+.price-sale .price-now { color: var(--danger); font-weight: 700; }
+.price-sale .price-was { color: var(--muted); font-weight: 400; text-decoration: line-through; font-size: 0.9em; }
+
+/* ---------- Category banner ---------- */
+.category-banner {
+  position: relative;
+  margin: 0 auto;
+  max-width: var(--max-width);
+  height: 46vh;
+  min-height: 320px;
+  overflow: hidden;
+}
+.category-banner img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 20%;
+}
+.category-banner-copy {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+  padding: 0 48px;
+  background: linear-gradient(90deg, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.1) 60%, transparent 100%);
+  color: var(--paper);
+}
+.category-banner-copy .eyebrow { color: rgba(250, 250, 248, 0.75); }
+.category-banner-copy h2 { font-size: clamp(28px, 4vw, 46px); margin: 14px 0 24px; max-width: 14ch; }
+.category-banner-copy .btn-primary { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.category-banner-copy .btn-primary:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
+@media (max-width: 640px) {
+  .category-banner { height: 60vh; }
+  .category-banner-copy { padding: 0 24px; background: linear-gradient(180deg, rgba(10, 10, 10, 0.2) 0%, rgba(10, 10, 10, 0.65) 100%); }
 }
 
 /* ---------- Filters ---------- */

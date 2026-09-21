@@ -28,6 +28,8 @@
             <option value="Footwear">Footwear</option>
             <option value="Trousers">Trousers</option>
             <option value="Accessories">Accessories</option>
+            <option value="Formalwear">Formalwear</option>
+            <option value="Shirts">Shirts</option>
         </select>
         <button type="submit" class="btn btn-outline">Filter</button>
     </form>

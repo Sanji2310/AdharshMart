@@ -10,6 +10,8 @@ public class Product {
     private String name;
     private String description;
     private BigDecimal price;
+    /** Pre-discount reference price. Null unless the listing is on sale (then price &lt; this). */
+    private BigDecimal compareAtPrice;
     private int stockQty;
     private String category;
     private String imageUrl;
@@ -57,6 +59,14 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public BigDecimal getCompareAtPrice() {
+        return compareAtPrice;
+    }
+
+    public void setCompareAtPrice(BigDecimal compareAtPrice) {
+        this.compareAtPrice = compareAtPrice;
     }
 
     public int getStockQty() {

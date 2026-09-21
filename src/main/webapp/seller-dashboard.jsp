@@ -42,6 +42,7 @@
             <div class="field"><label for="p-name">Name</label><input id="p-name" required></div>
             <div class="field"><label for="p-desc">Description</label><textarea id="p-desc" rows="3"></textarea></div>
             <div class="field"><label for="p-price">Price (INR)</label><input id="p-price" type="number" step="0.01" min="0" required></div>
+            <div class="field"><label for="p-compare-price">Compare-at price (optional — set to mark as on sale)</label><input id="p-compare-price" type="number" step="0.01" min="0"></div>
             <div class="field"><label for="p-stock">Stock quantity</label><input id="p-stock" type="number" min="0" required></div>
             <div class="field"><label for="p-category">Category</label><input id="p-category" required></div>
             <div class="field"><label for="p-image">Image URL</label><input id="p-image" type="url"></div>

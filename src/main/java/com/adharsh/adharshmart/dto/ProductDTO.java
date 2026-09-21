@@ -12,6 +12,7 @@ public class ProductDTO {
     private String name;
     private String description;
     private BigDecimal price;
+    private BigDecimal compareAtPrice;
     private int stockQty;
     private String category;
     private String imageUrl;
@@ -30,6 +31,7 @@ public class ProductDTO {
         dto.setName(p.getName());
         dto.setDescription(p.getDescription());
         dto.setPrice(p.getPrice());
+        dto.setCompareAtPrice(p.getCompareAtPrice());
         dto.setStockQty(p.getStockQty());
         dto.setCategory(p.getCategory());
         dto.setImageUrl(p.getImageUrl());
@@ -45,6 +47,7 @@ public class ProductDTO {
         p.setName(name);
         p.setDescription(description);
         p.setPrice(price);
+        p.setCompareAtPrice(compareAtPrice);
         p.setStockQty(stockQty);
         p.setCategory(category);
         p.setImageUrl(imageUrl);
@@ -99,6 +102,14 @@ public class ProductDTO {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public BigDecimal getCompareAtPrice() {
+        return compareAtPrice;
+    }
+
+    public void setCompareAtPrice(BigDecimal compareAtPrice) {
+        this.compareAtPrice = compareAtPrice;
     }
 
     public int getStockQty() {

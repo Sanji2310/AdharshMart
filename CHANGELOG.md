@@ -1,6 +1,22 @@
 # Changelog
 
 ## Unreleased
+- Catalog expanded from 8 to 25 products across 9 categories (added Formalwear and Shirts),
+  each with a real, individually-searched Unsplash photo — not a repeated or guessed image.
+  Verified every product has a non-empty `imageUrl` and no two products share an image.
+- Sale pricing: new nullable `compare_at_price` column (`db/migrations/V5`) on `products`,
+  enforced by a CHECK constraint (`compare_at_price IS NULL OR compare_at_price > price`).
+  Sellers can set it from the "Add listing" form or inline-edit their existing listings; the
+  homepage gained a dedicated "On sale" section, and any on-sale product card/detail page shows
+  a `−NN%` badge plus a struck-through reference price. Three listings ship on sale by default.
+- Homepage category banner: a full-width "The Autumn/Winter edit" banner promoting Outerwear
+  with its own editorial photo, between Featured pieces and the new Sale section.
+- Wordmark: switched from a mixed-case serif to tracked-out uppercase (0.16em letter-spacing,
+  weight 400) — the logotype pattern shared by Dior, Chanel, Celine — for a more overtly
+  luxury brand mark, independent of the body/headline type.
+- Admin inventory tab and seller dashboard now reflect the full 25-product catalog; verified
+  the "Inventory" tab lists all 25 rows and the seller Listings table all 26 after a live
+  test publish.
 - Real product/hero photography via the Unsplash API (MCP connector — not Higgsfield, and not a
   raw web fetch, both of which are blocked in this build environment): all 8 product `image_url`
   values, the 4 homepage category tiles, and the hero background are now genuine, individually

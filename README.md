@@ -91,7 +91,7 @@ full place-order sequence, and [`docs/diagrams`](docs/diagrams) for the ER and u
 | ID | Requirement | Status |
 |---|---|---|
 | F1 | Register/login, BUYER/SELLER roles, seeded ADMIN | Done |
-| F2 | Seller product CRUD (create, edit, restock/reprice, deactivate/reactivate) | Done |
+| F2 | Seller product CRUD (create, edit, restock/reprice, deactivate/reactivate, sale pricing) | Done |
 | F3 | Buyer browse/search/filter | Done |
 | F4 | Cart add/update/remove + running total | Done |
 | F5 | Checkout via mock payment | Done |

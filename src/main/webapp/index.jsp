@@ -38,6 +38,28 @@
     </div>
 </section>
 
+<section class="category-banner">
+    <img src="https://images.unsplash.com/photo-1777448067492-b665d9e0b29c?q=80&amp;w=1600&amp;fit=crop&amp;auto=format" alt="Outerwear, the Autumn/Winter edit">
+    <div class="category-banner-copy">
+        <p class="eyebrow">The Autumn/Winter edit</p>
+        <h2 class="display">Outerwear, made for the season</h2>
+        <a class="btn btn-primary" href="products.jsp?category=Outerwear">Shop Outerwear</a>
+    </div>
+</section>
+
+<section class="section container sale-section" style="padding-top:0;">
+    <div class="section-head">
+        <div>
+            <p class="eyebrow">Limited time</p>
+            <h2>On sale</h2>
+        </div>
+        <a class="btn btn-outline" href="products.jsp">View all</a>
+    </div>
+    <div class="product-grid" id="sale-grid">
+        <p class="empty-state">Loading…</p>
+    </div>
+</section>
+
 <section class="section container" style="padding-top:0;">
     <div class="section-head">
         <div>
@@ -71,6 +93,9 @@
 <script src="${pageContext.request.contextPath}/js/app.js"></script>
 <script src="${pageContext.request.contextPath}/js/cart.js"></script>
 <script src="${pageContext.request.contextPath}/js/chat-widget.js"></script>
-<script>AdharshMart.renderFeatured('featured-grid');</script>
+<script>
+    AdharshMart.renderFeatured('featured-grid');
+    AdharshMart.renderSale('sale-grid');
+</script>
 </body>
 </html>

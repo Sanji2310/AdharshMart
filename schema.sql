@@ -18,12 +18,14 @@ CREATE TABLE IF NOT EXISTS products (
     name        VARCHAR(160) NOT NULL,
     description VARCHAR(2000),
     price       DECIMAL(10, 2) NOT NULL CHECK (price >= 0),
+    compare_at_price DECIMAL(10, 2),
     stock_qty   INT NOT NULL DEFAULT 0 CHECK (stock_qty >= 0),
     category    VARCHAR(80) NOT NULL,
     image_url   VARCHAR(500),
     active      BOOLEAN NOT NULL DEFAULT TRUE,
     created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_products_seller FOREIGN KEY (seller_id) REFERENCES users (id)
+    CONSTRAINT fk_products_seller FOREIGN KEY (seller_id) REFERENCES users (id),
+    CONSTRAINT chk_products_compare_at_price CHECK (compare_at_price IS NULL OR compare_at_price > price)
 );
 CREATE INDEX IF NOT EXISTS idx_products_seller_id ON products (seller_id);
 CREATE INDEX IF NOT EXISTS idx_products_category ON products (category);

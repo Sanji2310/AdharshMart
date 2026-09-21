@@ -23,19 +23,20 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public Product create(Product p) throws SQLException {
-        String sql = "INSERT INTO products (seller_id, name, description, price, stock_qty, category, "
-                + "image_url, active, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO products (seller_id, name, description, price, compare_at_price, stock_qty, "
+                + "category, image_url, active, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setLong(1, p.getSellerId());
             ps.setString(2, p.getName());
             ps.setString(3, p.getDescription());
             ps.setBigDecimal(4, p.getPrice());
-            ps.setInt(5, p.getStockQty());
-            ps.setString(6, p.getCategory());
-            ps.setString(7, p.getImageUrl());
-            ps.setBoolean(8, true);
-            ps.setTimestamp(9, Timestamp.valueOf(java.time.LocalDateTime.now()));
+            ps.setBigDecimal(5, p.getCompareAtPrice());
+            ps.setInt(6, p.getStockQty());
+            ps.setString(7, p.getCategory());
+            ps.setString(8, p.getImageUrl());
+            ps.setBoolean(9, true);
+            ps.setTimestamp(10, Timestamp.valueOf(java.time.LocalDateTime.now()));
             ps.executeUpdate();
             try (ResultSet keys = ps.getGeneratedKeys()) {
                 if (keys.next()) {
@@ -48,19 +49,20 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public void update(Product p) throws SQLException {
-        String sql = "UPDATE products SET name = ?, description = ?, price = ?, stock_qty = ?, "
-                + "category = ?, image_url = ?, active = ? WHERE id = ? AND seller_id = ?";
+        String sql = "UPDATE products SET name = ?, description = ?, price = ?, compare_at_price = ?, "
+                + "stock_qty = ?, category = ?, image_url = ?, active = ? WHERE id = ? AND seller_id = ?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, p.getName());
             ps.setString(2, p.getDescription());
             ps.setBigDecimal(3, p.getPrice());
-            ps.setInt(4, p.getStockQty());
-            ps.setString(5, p.getCategory());
-            ps.setString(6, p.getImageUrl());
-            ps.setBoolean(7, p.isActive());
-            ps.setLong(8, p.getId());
-            ps.setLong(9, p.getSellerId());
+            ps.setBigDecimal(4, p.getCompareAtPrice());
+            ps.setInt(5, p.getStockQty());
+            ps.setString(6, p.getCategory());
+            ps.setString(7, p.getImageUrl());
+            ps.setBoolean(8, p.isActive());
+            ps.setLong(9, p.getId());
+            ps.setLong(10, p.getSellerId());
             ps.executeUpdate();
         }
     }
@@ -173,6 +175,7 @@ public class ProductDAOImpl implements ProductDAO {
         p.setName(rs.getString("name"));
         p.setDescription(rs.getString("description"));
         p.setPrice(rs.getBigDecimal("price"));
+        p.setCompareAtPrice(rs.getBigDecimal("compare_at_price"));
         p.setStockQty(rs.getInt("stock_qty"));
         p.setCategory(rs.getString("category"));
         p.setImageUrl(rs.getString("image_url"));

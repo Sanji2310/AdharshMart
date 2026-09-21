@@ -51,6 +51,7 @@ public class ProductServiceImpl implements ProductService {
             existing.setName(dto.getName());
             existing.setDescription(dto.getDescription());
             existing.setPrice(dto.getPrice());
+            existing.setCompareAtPrice(dto.getCompareAtPrice());
             existing.setStockQty(dto.getStockQty());
             existing.setCategory(dto.getCategory());
             existing.setImageUrl(dto.getImageUrl());
@@ -133,6 +134,10 @@ public class ProductServiceImpl implements ProductService {
         }
         if (ValidationUtil.isBlank(dto.getCategory())) {
             throw new ValidationException("category", "VALIDATION_ERROR", "Category is required");
+        }
+        if (dto.getCompareAtPrice() != null && dto.getCompareAtPrice().compareTo(dto.getPrice()) <= 0) {
+            throw new ValidationException("compareAtPrice", "VALIDATION_ERROR",
+                    "Compare-at price must be greater than the selling price");
         }
     }
 }

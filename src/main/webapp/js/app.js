@@ -62,18 +62,35 @@
         setTimeout(() => node.classList.remove('show'), 2600);
     }
 
+    function isOnSale(p) {
+        return p.compareAtPrice != null && parseFloat(p.compareAtPrice) > parseFloat(p.price);
+    }
+
+    function priceBlock(p) {
+        if (!isOnSale(p)) {
+            return el('p', { class: 'price' }, [money(p.price)]);
+        }
+        return el('p', { class: 'price price-sale' }, [
+            el('span', { class: 'price-now' }, [money(p.price)]),
+            el('span', { class: 'price-was' }, [money(p.compareAtPrice)])
+        ]);
+    }
+
     function productCard(p) {
         const thumb = el('div', { class: 'thumb' }, [
             el('img', { src: p.imageUrl || '', alt: p.name, loading: 'lazy' })
         ]);
         if (p.stockQty <= 0) {
             thumb.appendChild(el('span', { class: 'badge-oos' }, ['Sold out']));
+        } else if (isOnSale(p)) {
+            const pct = Math.round((1 - parseFloat(p.price) / parseFloat(p.compareAtPrice)) * 100);
+            thumb.appendChild(el('span', { class: 'badge-sale' }, ['−' + pct + '%']));
         }
         return el('a', { class: 'product-card', href: 'product-detail.jsp?id=' + p.id }, [
             thumb,
             el('p', { class: 'category' }, [p.category]),
             el('p', { class: 'name' }, [p.name]),
-            el('p', { class: 'price' }, [money(p.price)]),
+            priceBlock(p),
             p.reviewCount > 0 ? el('p', { class: 'rating' }, [stars(p.averageRating) + ' (' + p.reviewCount + ')']) : null
         ]);
     }
@@ -87,6 +104,20 @@
             return;
         }
         res.data.slice(0, 8).forEach((p) => container.appendChild(productCard(p)));
+    }
+
+    async function renderSale(containerId) {
+        const container = document.getElementById(containerId);
+        const section = container ? container.closest('.sale-section') : null;
+        const res = await api('/api/v1/products', 'GET');
+        if (!container) return;
+        container.innerHTML = '';
+        const onSale = res.success && res.data ? res.data.filter(isOnSale) : [];
+        if (onSale.length === 0) {
+            if (section) section.style.display = 'none';
+            return;
+        }
+        onSale.slice(0, 4).forEach((p) => container.appendChild(productCard(p)));
     }
 
     async function initProductsPage() {
@@ -163,7 +194,12 @@
             el('p', { class: 'category' }, [p.category]),
             el('h1', { class: 'display', style: 'font-size:36px;margin:12px 0;' }, [p.name]),
             p.reviewCount > 0 ? el('p', { class: 'rating' }, [stars(p.averageRating) + ' · ' + p.reviewCount + ' review(s)']) : null,
-            el('p', { class: 'pd-price' }, [money(p.price)]),
+            isOnSale(p)
+                ? el('p', { class: 'pd-price price-sale' }, [
+                    el('span', { class: 'price-now' }, [money(p.price)]),
+                    el('span', { class: 'price-was' }, [money(p.compareAtPrice)])
+                ])
+                : el('p', { class: 'pd-price' }, [money(p.price)]),
             el('p', { style: 'color:var(--muted);line-height:1.7;' }, [p.description || '']),
             el('div', { class: 'qty-control', style: 'margin-top:24px;' }, [
                 el('button', { type: 'button', onclick: () => { if (qtyState.value > 1) { qtyState.value--; qtyLabel.textContent = qtyState.value; } } }, ['−']),
@@ -279,7 +315,7 @@
     });
 
     global.AdharshMart = {
-        api, el, money, stars, toast, productCard, renderFeatured,
+        api, el, money, stars, toast, productCard, renderFeatured, renderSale,
         initProductsPage, initProductDetailPage, updateCartBadge,
         initCartPage: () => global.AdharshMartCart && global.AdharshMartCart.initCartPage(),
         initCheckoutPage: () => global.AdharshMartCart && global.AdharshMartCart.initCheckoutPage(),
@@ -415,6 +451,9 @@
         function renderViewMode() {
             priceCell.innerHTML = '';
             priceCell.appendChild(document.createTextNode(money(p.price)));
+            if (isOnSale(p)) {
+                priceCell.appendChild(el('div', { style: 'color:var(--muted);font-size:12px;text-decoration:line-through;' }, [money(p.compareAtPrice)]));
+            }
             stockCell.innerHTML = '';
             stockCell.appendChild(document.createTextNode(String(p.stockQty)));
             actionCell.innerHTML = '';
@@ -426,19 +465,28 @@
 
         function renderEditMode() {
             const priceInput = el('input', { type: 'number', step: '0.01', min: '0', value: String(p.price), style: 'width:90px;' });
+            const comparePriceInput = el('input', {
+                type: 'number', step: '0.01', min: '0', value: p.compareAtPrice != null ? String(p.compareAtPrice) : '',
+                placeholder: 'Was (sale)', style: 'width:90px;margin-top:4px;'
+            });
             const stockInput = el('input', { type: 'number', min: '0', value: String(p.stockQty), style: 'width:70px;' });
             priceCell.innerHTML = '';
-            priceCell.appendChild(priceInput);
+            priceCell.appendChild(el('div', {}, [priceInput, comparePriceInput]));
             stockCell.innerHTML = '';
             stockCell.appendChild(stockInput);
             actionCell.innerHTML = '';
             actionCell.appendChild(el('div', { style: 'display:flex;gap:8px;' }, [
                 el('button', {
                     class: 'btn btn-sm btn-primary', onclick: async () => {
-                        const body = Object.assign({}, p, { price: parseFloat(priceInput.value), stockQty: parseInt(stockInput.value, 10) });
+                        const body = Object.assign({}, p, {
+                            price: parseFloat(priceInput.value),
+                            compareAtPrice: comparePriceInput.value ? parseFloat(comparePriceInput.value) : null,
+                            stockQty: parseInt(stockInput.value, 10)
+                        });
                         const r = await api('/api/v1/products/' + p.id, 'PUT', body);
                         if (r.success) {
                             p.price = body.price;
+                            p.compareAtPrice = body.compareAtPrice;
                             p.stockQty = body.stockQty;
                             toast('Listing updated');
                             renderViewMode();
@@ -517,10 +565,12 @@
             e.preventDefault();
             const errorEl = document.getElementById('listing-error');
             errorEl.textContent = '';
+            const comparePriceRaw = document.getElementById('p-compare-price').value;
             const body = {
                 name: document.getElementById('p-name').value.trim(),
                 description: document.getElementById('p-desc').value.trim(),
                 price: parseFloat(document.getElementById('p-price').value),
+                compareAtPrice: comparePriceRaw ? parseFloat(comparePriceRaw) : null,
                 stockQty: parseInt(document.getElementById('p-stock').value, 10),
                 category: document.getElementById('p-category').value.trim(),
                 imageUrl: document.getElementById('p-image').value.trim(),
