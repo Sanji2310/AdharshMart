@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Product — AdharshMart</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <script>(function(){try{var t=localStorage.getItem("adharshmart-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
     <style>
         .pd-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
         .pd-gallery { display: flex; flex-direction: column; gap: 12px; }

@@ -12,6 +12,7 @@
         <a href="${pageContext.request.contextPath}/products.jsp?category=Accessories">Accessories</a>
     </nav>
     <div class="nav-actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle dark mode">&#9789;</button>
         <c:choose>
             <c:when test="${not empty sessionScope.userId}">
                 <c:if test="${sessionScope.role == 'SELLER'}">

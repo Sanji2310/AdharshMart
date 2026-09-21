@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin — AdharshMart</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <script>(function(){try{var t=localStorage.getItem("adharshmart-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
     <style>
         .tabs { display: flex; gap: 8px; margin-bottom: 32px; border-bottom: 1px solid var(--line); }
         .tab-btn { background: none; border: none; padding: 12px 20px; font-size: 13px; letter-spacing: 0.04em;
@@ -21,6 +22,8 @@
 <div class="container section">
     <p class="eyebrow">Administration</p>
     <h2 style="margin-bottom:32px;">Marketplace control</h2>
+
+    <div id="admin-sales-chart"></div>
 
     <div class="tabs">
         <button class="tab-btn active" data-tab="users">Users</button>

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Checkout — AdharshMart</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <script>(function(){try{var t=localStorage.getItem("adharshmart-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 </head>
 <body>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>

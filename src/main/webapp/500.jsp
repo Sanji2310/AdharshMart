@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Something went wrong — AdharshMart</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <script>(function(){try{var t=localStorage.getItem("adharshmart-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 </head>
 <body>
 <main class="error-page">

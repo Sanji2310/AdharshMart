@@ -311,6 +311,130 @@
         }
     }
 
+    // ---------------- Sales chart (admin + seller dashboards) ----------------
+    // Aggregates whatever order list the caller already fetched into per-day revenue buckets —
+    // no dedicated analytics endpoint needed, both dashboards already load their full order list.
+    function aggregateByDay(records, days, amountFn) {
+        const buckets = [];
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        for (let i = days - 1; i >= 0; i--) {
+            const d = new Date(today);
+            d.setDate(d.getDate() - i);
+            buckets.push({ date: d, value: 0 });
+        }
+        records.forEach((r) => {
+            const created = new Date(r.createdAt);
+            created.setHours(0, 0, 0, 0);
+            const bucket = buckets.find((b) => b.date.getTime() === created.getTime());
+            if (bucket) bucket.value += amountFn(r);
+        });
+        return buckets;
+    }
+
+    function renderSalesChart(container, buckets, title) {
+        container.innerHTML = '';
+        const total = buckets.reduce((s, b) => s + b.value, 0);
+        const wrap = el('div', { class: 'sales-chart-wrap' }, [
+            el('div', { class: 'chart-head' }, [
+                el('p', { class: 'eyebrow' }, [title]),
+                el('p', { class: 'chart-total' }, [money(total)])
+            ])
+        ]);
+        if (total === 0) {
+            wrap.appendChild(el('p', { class: 'empty-state' }, ['No sales in this period yet.']));
+            container.appendChild(wrap);
+            return;
+        }
+
+        const svgNS = 'http://www.w3.org/2000/svg';
+        const w = 720, h = 180, padX = 8, padY = 16;
+        const max = Math.max(...buckets.map((b) => b.value), 1);
+        const stepX = (w - padX * 2) / (buckets.length - 1 || 1);
+        const points = buckets.map((b, i) => [
+            padX + i * stepX,
+            padY + (h - padY * 2) * (1 - b.value / max)
+        ]);
+
+        const svg = document.createElementNS(svgNS, 'svg');
+        svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+        svg.setAttribute('preserveAspectRatio', 'none');
+        svg.setAttribute('class', 'sales-chart-svg');
+
+        [0.25, 0.5, 0.75].forEach((f) => {
+            const y = padY + (h - padY * 2) * f;
+            const gridLine = document.createElementNS(svgNS, 'line');
+            gridLine.setAttribute('x1', padX); gridLine.setAttribute('x2', w - padX);
+            gridLine.setAttribute('y1', y); gridLine.setAttribute('y2', y);
+            gridLine.setAttribute('class', 'chart-grid');
+            svg.appendChild(gridLine);
+        });
+
+        const linePath = 'M' + points.map((p) => p.join(',')).join(' L');
+        const areaPath = linePath + ` L${points[points.length - 1][0]},${h - padY} L${points[0][0]},${h - padY} Z`;
+
+        const area = document.createElementNS(svgNS, 'path');
+        area.setAttribute('d', areaPath);
+        area.setAttribute('class', 'chart-area');
+        svg.appendChild(area);
+
+        const line = document.createElementNS(svgNS, 'path');
+        line.setAttribute('d', linePath);
+        line.setAttribute('class', 'chart-line');
+        svg.appendChild(line);
+
+        points.forEach(([x, y], i) => {
+            const dot = document.createElementNS(svgNS, 'circle');
+            dot.setAttribute('cx', String(x)); dot.setAttribute('cy', String(y)); dot.setAttribute('r', '2.5');
+            dot.setAttribute('class', 'chart-dot');
+            const dotTitle = document.createElementNS(svgNS, 'title');
+            dotTitle.textContent = buckets[i].date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }) + ': ' + money(buckets[i].value);
+            dot.appendChild(dotTitle);
+            svg.appendChild(dot);
+        });
+
+        wrap.appendChild(svg);
+
+        const labelEvery = Math.max(1, Math.ceil(buckets.length / 6));
+        wrap.appendChild(el('div', { class: 'chart-labels' },
+            buckets.filter((_, i) => i % labelEvery === 0).map((b) =>
+                el('span', {}, [b.date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })]))
+        ));
+        container.appendChild(wrap);
+    }
+
+    // Theme toggle: explicit choice wins over the OS's prefers-color-scheme once the visitor
+    // has picked one, persisted so it survives across pages/visits. Unset (no localStorage entry)
+    // means "follow system", handled entirely by the CSS media query in main.css.
+    const THEME_KEY = 'adharshmart-theme';
+    function applyTheme(theme) {
+        const root = document.documentElement;
+        if (theme === 'light' || theme === 'dark') {
+            root.setAttribute('data-theme', theme);
+        } else {
+            root.removeAttribute('data-theme');
+        }
+        const btn = document.getElementById('theme-toggle');
+        if (btn) {
+            const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = theme === 'dark' || (theme !== 'light' && systemDark);
+            btn.innerHTML = isDark ? '&#9788;' : '&#9789;';
+            btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        }
+    }
+    function wireThemeToggle() {
+        applyTheme(localStorage.getItem(THEME_KEY));
+        const btn = document.getElementById('theme-toggle');
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+            const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const current = localStorage.getItem(THEME_KEY) || (systemDark ? 'dark' : 'light');
+            const next = current === 'dark' ? 'light' : 'dark';
+            localStorage.setItem(THEME_KEY, next);
+            applyTheme(next);
+        });
+    }
+
     function wireTabs() {
         document.querySelectorAll('.tab-btn').forEach((btn) => {
             btn.addEventListener('click', () => {
@@ -334,6 +458,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         wireLogout();
         wireTabs();
+        wireThemeToggle();
         updateCartBadge();
     });
 
@@ -424,6 +549,12 @@
         renderSellerListings(productsRes);
         renderSellerOrders(ordersRes);
         wireNewListingForm();
+        const sellerChartSlot = document.getElementById('seller-sales-chart');
+        if (sellerChartSlot) {
+            const lines = ordersRes.success ? ordersRes.data : [];
+            const buckets = aggregateByDay(lines, 14, (o) => o.unitPrice * o.quantity);
+            renderSalesChart(sellerChartSlot, buckets, 'Revenue — last 14 days');
+        }
     }
 
     function renderStats(productsRes, ordersRes) {
@@ -621,6 +752,12 @@
         renderAdminUsers(usersRes);
         renderAdminOrders(ordersRes);
         renderAdminProducts(productsRes);
+        const adminChartSlot = document.getElementById('admin-sales-chart');
+        if (adminChartSlot) {
+            const orders = ordersRes.success ? ordersRes.data : [];
+            const buckets = aggregateByDay(orders, 14, (o) => o.totalAmount);
+            renderSalesChart(adminChartSlot, buckets, 'Marketplace revenue — last 14 days');
+        }
     }
 
     function renderAdminUsers(res) {

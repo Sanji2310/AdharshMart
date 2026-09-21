@@ -32,6 +32,15 @@
   --mandala-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23b08d57' stroke-width='0.6'%3E%3Ccircle cx='100' cy='100' r='94'/%3E%3Ccircle cx='100' cy='100' r='76'/%3E%3Ccircle cx='100' cy='100' r='58'/%3E%3Ccircle cx='100' cy='100' r='14'/%3E%3Cg stroke-width='0.5'%3E%3Cellipse cx='100' cy='42' rx='6' ry='32'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(30 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(60 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(90 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(120 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(150 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(180 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(210 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(240 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(270 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(300 100 100)'/%3E%3Cellipse cx='100' cy='42' rx='6' ry='32' transform='rotate(330 100 100)'/%3E%3C/g%3E%3Cg stroke-width='0.4'%3E%3Ccircle cx='100' cy='24' r='4'/%3E%3Ccircle cx='100' cy='176' r='4'/%3E%3Ccircle cx='24' cy='100' r='4'/%3E%3Ccircle cx='176' cy='100' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
+/* color-scheme tells the browser which palette to use for UI it renders itself — native
+   <select>/<option> popups, checkboxes, scrollbars, autofill — that our CSS variables above
+   can't reach. Without this, those controls silently fall back to the OS's own light/dark
+   rendering regardless of --ink/--paper, which is what made "fonts and symbols" look wrong
+   inside form fields and dropdowns even though the rest of the page had switched correctly. */
+:root { color-scheme: light dark; }
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --ink: #f5f4f0;
@@ -379,6 +388,17 @@ h1, h2, h3, .display {
 
 /* ---------- Cards / panels ---------- */
 .panel { background: var(--paper-dim); padding: 32px; border-radius: var(--radius); }
+
+/* ---------- Sales chart (admin + seller dashboards) ---------- */
+.sales-chart-wrap { background: var(--paper-dim); padding: 32px; border-radius: var(--radius); margin-bottom: 40px; }
+.sales-chart-wrap .chart-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; }
+.sales-chart-wrap .chart-total { font-family: var(--font-display); font-size: 32px; }
+.sales-chart-svg { width: 100%; height: 180px; display: block; overflow: visible; }
+.sales-chart-svg .chart-area { fill: color-mix(in srgb, var(--gold) 16%, transparent); }
+.sales-chart-svg .chart-line { fill: none; stroke: var(--gold); stroke-width: 2; }
+.sales-chart-svg .chart-grid { stroke: var(--line); stroke-width: 1; }
+.sales-chart-svg .chart-dot { fill: var(--gold); }
+.chart-labels { display: flex; justify-content: space-between; margin-top: 12px; font-size: 11px; color: var(--muted); }
 .divider { height: 1px; background: var(--line); margin: 24px 0; border: none; }
 
 /* ---------- Cart / checkout ---------- */
