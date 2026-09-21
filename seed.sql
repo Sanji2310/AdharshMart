@@ -121,9 +121,20 @@ MERGE INTO product_images (id, product_id, image_url, sort_order) KEY (id) VALUE
   (67, 24, 'https://images.unsplash.com/photo-1480429370139-e0132c086e2a?q=80&w=900&fit=crop&auto=format', 3),
   (68, 25, 'https://images.unsplash.com/photo-1604695573706-53170668f6a6?q=80&w=900&fit=crop&auto=format', 1),
   (69, 25, 'https://images.unsplash.com/photo-1598032895455-526c9e347a87?q=80&w=900&fit=crop&auto=format', 2),
-  (70, 25, 'https://images.unsplash.com/photo-1786729135070-c37def3b3dfb?q=80&w=900&fit=crop&auto=format', 3);
+  (70, 25, 'https://images.unsplash.com/photo-1786729135070-c37def3b3dfb?q=80&w=900&fit=crop&auto=format', 3),
+  -- Round 2: additional white-background / texture-detail-close-up shots, individually re-searched
+  -- per product (not reused/generic) to better satisfy "clean white background + texture detail".
+  (71, 3, 'https://images.unsplash.com/photo-1609838910949-e7928cc5f5ee?q=80&w=900&fit=crop&auto=format', 4),
+  (72, 4, 'https://images.unsplash.com/photo-1602706294170-1fed8eecd9f9?q=80&w=900&fit=crop&auto=format', 4),
+  (73, 5, 'https://images.unsplash.com/photo-1625860191460-10a66c7384fb?q=80&w=900&fit=crop&auto=format', 4),
+  (74, 6, 'https://images.unsplash.com/photo-1705493254146-710211d851fa?q=80&w=900&fit=crop&auto=format', 4),
+  (75, 7, 'https://images.unsplash.com/photo-1710407625705-fe00b2ecf9e7?q=80&w=900&fit=crop&auto=format', 4),
+  (76, 8, 'https://images.unsplash.com/photo-1605348532760-6753d2c43329?q=80&w=900&fit=crop&auto=format', 4),
+  (77, 12, 'https://images.unsplash.com/photo-1606259457945-67dc66271ee6?q=80&w=900&fit=crop&auto=format', 3),
+  (78, 16, 'https://images.unsplash.com/photo-1737061335501-3623a11c0806?q=80&w=900&fit=crop&auto=format', 4),
+  (79, 18, 'https://images.unsplash.com/photo-1571829604981-ea159f94e5ad?q=80&w=900&fit=crop&auto=format', 4);
 
-ALTER TABLE product_images ALTER COLUMN id RESTART WITH 71;
+ALTER TABLE product_images ALTER COLUMN id RESTART WITH 80;
 
 MERGE INTO reviews (id, product_id, user_id, rating, comment, created_at) KEY (id) VALUES
   (1, 1, 3, 5, 'Impeccable tailoring, worth every rupee.', CURRENT_TIMESTAMP),
