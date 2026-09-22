@@ -226,9 +226,11 @@ h1, h2, h3, .display {
 .btn-sm { padding: 9px 16px; font-size: 11px; }
 
 /* ---------- Hero ---------- */
-/* Editorial portrait sourced live via the Unsplash API (photo by Florian Cordier — full
-   attribution in footer.jspf per Unsplash's API guidelines). A dark gradient sits over it for
-   text legibility; the mandala watermark rides on top as the same accent every other page uses. */
+/* FHD video loop (AI-generated, see PR notes) fills the hero; a still Unsplash portrait
+   (photo by Florian Cordier — attribution in footer.jspf) is both the <video poster> shown
+   before playback starts and the CSS fallback background if the video source can't load.
+   A dark gradient overlay div sits above the video for text legibility; the mandala watermark
+   rides on top as the same accent every other page uses. */
 .hero {
   position: relative;
   min-height: 88vh;
@@ -236,10 +238,23 @@ h1, h2, h3, .display {
   align-items: flex-end;
   overflow: hidden;
   background:
-    linear-gradient(100deg, var(--ink) 0%, rgba(10, 10, 10, 0.72) 40%, rgba(10, 10, 10, 0.32) 100%),
     url("https://images.unsplash.com/photo-1695048994291-2e96839a0a3a?q=80&w=1600&fit=crop&auto=format") center 22% / cover no-repeat,
     linear-gradient(160deg, #1c1c1a 0%, var(--ink) 55%, #050504 100%);
   color: var(--paper);
+}
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(100deg, var(--ink) 0%, rgba(10, 10, 10, 0.72) 40%, rgba(10, 10, 10, 0.32) 100%);
 }
 .hero-motif {
   position: absolute;
@@ -253,6 +268,7 @@ h1, h2, h3, .display {
   pointer-events: none;
   mix-blend-mode: overlay;
   background: none;
+  z-index: 1;
 }
 @media (max-width: 900px) {
   .hero-motif { opacity: 0.1; right: -20%; }

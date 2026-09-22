@@ -13,6 +13,11 @@
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 
 <section class="hero">
+    <video class="hero-video" autoplay muted loop playsinline
+           poster="https://images.unsplash.com/photo-1695048994291-2e96839a0a3a?q=80&amp;w=1600&amp;fit=crop&amp;auto=format">
+        <source src="https://platform2.cdn.acedata.cloud/seedance/390e0a31-f7c8-4d05-886c-c33946e781e2.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
     <img class="hero-motif" src="${pageContext.request.contextPath}/images/mandala.svg" alt="" aria-hidden="true">
     <div class="hero-content">
         <p class="eyebrow">New season — Autumn/Winter</p>
