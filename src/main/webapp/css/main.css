@@ -214,6 +214,8 @@ h1, h2, h3, .display {
 /* Static dark wool boucle fabric close-up (photo by Olga Kovalski — attribution in
    footer.jspf), matching the "wool, leather, silk" copy. A dark gradient sits over it for
    text legibility. */
+/* Deliberately fixed colors, not var(--ink)/var(--paper): this section always sits on a dark
+   photo, regardless of site theme, so its text/background must not flip with dark mode. */
 .hero {
   position: relative;
   min-height: 88vh;
@@ -221,10 +223,10 @@ h1, h2, h3, .display {
   align-items: flex-end;
   overflow: hidden;
   background:
-    linear-gradient(100deg, var(--ink) 0%, rgba(10, 10, 10, 0.72) 40%, rgba(10, 10, 10, 0.32) 100%),
+    linear-gradient(100deg, #0a0a0a 0%, rgba(10, 10, 10, 0.72) 40%, rgba(10, 10, 10, 0.32) 100%),
     url("https://images.unsplash.com/photo-1738747597354-15b75122e121?q=80&w=1600&fit=crop&auto=format") center / cover no-repeat,
-    linear-gradient(160deg, #1c1c1a 0%, var(--ink) 55%, #050504 100%);
-  color: var(--paper);
+    linear-gradient(160deg, #1c1c1a 0%, #0a0a0a 55%, #050504 100%);
+  color: #faf9f6;
 }
 .hero-content {
   position: relative;
@@ -242,8 +244,8 @@ h1, h2, h3, .display {
 }
 .hero p { max-width: 46ch; color: rgba(250, 250, 248, 0.75); margin-bottom: 32px; font-size: 16px; }
 .hero-actions { display: flex; gap: 16px; }
-.hero .btn { border-color: rgba(250, 250, 248, 0.5); color: var(--paper); }
-.hero .btn-primary { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.hero .btn { border-color: rgba(250, 250, 248, 0.5); color: #faf9f6; }
+.hero .btn-primary { background: #faf9f6; color: #0a0a0a; border-color: #faf9f6; }
 .hero .btn-primary:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
 
 /* ---------- Section headers ---------- */
@@ -308,16 +310,17 @@ h1, h2, h3, .display {
 .category-banner img {
   width: 100%; height: 100%; object-fit: cover; object-position: center 20%;
 }
+/* Fixed colors, not var(--paper)/var(--ink) — same reasoning as .hero above. */
 .category-banner-copy {
   position: absolute; inset: 0;
   display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
   padding: 0 48px;
   background: linear-gradient(90deg, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.1) 60%, transparent 100%);
-  color: var(--paper);
+  color: #faf9f6;
 }
 .category-banner-copy .eyebrow { color: rgba(250, 250, 248, 0.75); }
 .category-banner-copy h2 { font-size: clamp(28px, 4vw, 46px); margin: 14px 0 24px; max-width: 14ch; }
-.category-banner-copy .btn-primary { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.category-banner-copy .btn-primary { background: #faf9f6; color: #0a0a0a; border-color: #faf9f6; }
 .category-banner-copy .btn-primary:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
 @media (max-width: 640px) {
   .category-banner { height: 60vh; }
