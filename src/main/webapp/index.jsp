@@ -44,7 +44,7 @@
     </div>
 </section>
 
-<section class="category-banner">
+<section class="category-banner reveal">
     <img src="https://images.unsplash.com/photo-1777448067492-b665d9e0b29c?q=80&amp;w=1600&amp;fit=crop&amp;auto=format" alt="Outerwear, the Autumn/Winter edit">
     <div class="category-banner-copy">
         <p class="eyebrow">The Autumn/Winter edit</p>
@@ -53,7 +53,7 @@
     </div>
 </section>
 
-<section class="section container sale-section" style="padding-top:0;">
+<section class="section container sale-section reveal" style="padding-top:0;">
     <div class="section-head">
         <div>
             <p class="eyebrow">Limited time</p>
@@ -66,7 +66,7 @@
     </div>
 </section>
 
-<section class="section container" style="padding-top:0;">
+<section class="section container reveal" style="padding-top:0;">
     <div class="section-head">
         <div>
             <p class="eyebrow">Shop by category</p>

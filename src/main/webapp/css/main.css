@@ -212,7 +212,8 @@ h1, h2, h3, .display {
   font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
   border-radius: var(--radius);
   border: 1px solid var(--ink);
-  transition: all 0.2s ease;
+  transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
   background: transparent;
   color: var(--ink);
 }
@@ -221,8 +222,11 @@ h1, h2, h3, .display {
 .btn-outline:hover { background: var(--ink); color: var(--paper); }
 .btn-gold { background: var(--gold); border-color: var(--gold); color: #fff; }
 .btn-gold:hover { background: var(--gold-deep); border-color: var(--gold-deep); }
+.btn-primary:hover, .btn-outline:hover, .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15); }
+.btn:active { transform: translateY(0); box-shadow: none; }
 .btn-block { width: 100%; }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn:disabled:hover { transform: none; box-shadow: none; }
 .btn-sm { padding: 9px 16px; font-size: 11px; }
 
 /* ---------- Hero ---------- */
@@ -308,7 +312,8 @@ h1, h2, h3, .display {
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 32px 24px;
 }
-.product-card { display: block; }
+.product-card { display: block; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease; }
+.product-card:hover { transform: translateY(-6px); box-shadow: 0 20px 44px rgba(0, 0, 0, 0.12); }
 .product-card .thumb {
   position: relative;
   aspect-ratio: 4 / 5;
@@ -498,4 +503,46 @@ table.data-table td { padding: 16px; border-bottom: 1px solid var(--line); verti
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .container { padding: 0 18px; }
   .site-header { padding: 16px 18px; }
+}
+
+/* ---------- Motion ---------- */
+/* Scroll-triggered section reveal: JS (initScrollReveal in app.js) toggles .is-visible via
+   IntersectionObserver on any element marked .reveal. Product card entrance is CSS-only
+   (animation, not IntersectionObserver) since cards are injected dynamically after a fetch —
+   the animation just plays on insertion instead of needing an observer re-scan. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  .hero-content .eyebrow,
+  .hero-content h1,
+  .hero-content p,
+  .hero-content .hero-actions {
+    opacity: 0;
+    transform: translateY(22px);
+    animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .hero-content .eyebrow { animation-delay: 0.15s; }
+  .hero-content h1 { animation-delay: 0.28s; }
+  .hero-content p { animation-delay: 0.44s; }
+  .hero-content .hero-actions { animation-delay: 0.58s; }
+  @keyframes hero-rise { to { opacity: 1; transform: translateY(0); } }
+
+  /* backwards, not both/forwards: a lingering "forwards" fill would keep pinning `transform`
+     to the animation's own end value after it finishes, blocking the :hover lift below. */
+  .product-card { animation: card-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+  .product-grid .product-card:nth-child(2) { animation-delay: 0.05s; }
+  .product-grid .product-card:nth-child(3) { animation-delay: 0.1s; }
+  .product-grid .product-card:nth-child(4) { animation-delay: 0.15s; }
+  .product-grid .product-card:nth-child(5) { animation-delay: 0.2s; }
+  .product-grid .product-card:nth-child(6) { animation-delay: 0.25s; }
+  .product-grid .product-card:nth-child(n+7) { animation-delay: 0.3s; }
+  @keyframes card-rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-card, .btn, .product-card .thumb img { transition: none !important; animation: none !important; }
 }
