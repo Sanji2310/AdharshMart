@@ -189,7 +189,7 @@
             }
         }, ['Save for later']);
 
-        root.appendChild(productGallery(p));
+        root.appendChild(el('div', { class: 'pd-image' }, [el('img', { src: p.imageUrl || '', alt: p.name })]));
         root.appendChild(el('div', {}, [
             el('p', { class: 'category' }, [p.category]),
             el('h1', { class: 'display', style: 'font-size:36px;margin:12px 0;' }, [p.name]),
@@ -212,29 +212,6 @@
 
         renderReviewForm(p.id);
         renderReviews(p.id);
-    }
-
-    // Product detail gallery: cover shot first, then every product_images row (ProductServiceImpl
-    // enrich()) as a click-to-swap thumbnail strip — texture/worn/styling angles of the listing.
-    function productGallery(p) {
-        const images = (p.images && p.images.length > 0) ? p.images : [p.imageUrl || ''];
-        const mainImg = el('img', { src: images[0], alt: p.name });
-        const mainWrap = el('div', { class: 'pd-image' }, [mainImg]);
-        if (images.length <= 1) {
-            return el('div', { class: 'pd-gallery' }, [mainWrap]);
-        }
-        const thumbs = images.map((src, idx) => {
-            const thumbBtn = el('button', {
-                type: 'button', class: 'pd-thumb' + (idx === 0 ? ' active' : ''),
-                onclick: () => {
-                    mainImg.src = src;
-                    thumbs.forEach((t) => t.classList.remove('active'));
-                    thumbBtn.classList.add('active');
-                }
-            }, [el('img', { src: src, alt: p.name + ' — view ' + (idx + 1) })]);
-            return thumbBtn;
-        });
-        return el('div', { class: 'pd-gallery' }, [mainWrap, el('div', { class: 'pd-thumbs' }, thumbs)]);
     }
 
     async function renderReviewForm(productId) {

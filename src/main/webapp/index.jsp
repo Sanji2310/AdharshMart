@@ -13,7 +13,7 @@
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 
 <section class="hero">
-    <div class="hero-motif" aria-hidden="true"></div>
+    <img class="hero-motif" src="${pageContext.request.contextPath}/images/mandala.svg" alt="" aria-hidden="true">
     <div class="hero-content">
         <p class="eyebrow">New season — Autumn/Winter</p>
         <h1 class="display">Considered goods,<br>made to last.</h1>
