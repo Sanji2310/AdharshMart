@@ -11,5 +11,5 @@ db.pool.size=10
 # provider: mock (default, no network/API key needed) | gemini
 ai.chatbot.provider=mock
 ai.chatbot.apiKey=
-ai.chatbot.model=gemini-1.5-flash
-ai.chatbot.timeoutSeconds=8
+ai.chatbot.model=gemini-flash-lite-latest
+ai.chatbot.timeoutSeconds=30

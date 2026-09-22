@@ -18,8 +18,8 @@ public final class ChatProviderFactory {
             if (apiKey.isBlank()) {
                 return MOCK; // no key configured -> degrade to mock rather than fail every request
             }
-            String model = AppConfig.get("ai.chatbot.model", "gemini-1.5-flash");
-            int timeoutSeconds = Integer.parseInt(AppConfig.get("ai.chatbot.timeoutSeconds", "8"));
+            String model = AppConfig.get("ai.chatbot.model", "gemini-flash-lite-latest");
+            int timeoutSeconds = Integer.parseInt(AppConfig.get("ai.chatbot.timeoutSeconds", "30"));
             return new GeminiChatProvider(apiKey, model, Duration.ofSeconds(timeoutSeconds));
         }
         return MOCK;
