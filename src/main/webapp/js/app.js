@@ -190,17 +190,57 @@
         const p = res.data;
         document.title = p.name + ' — AdharshMart';
 
+        const selection = { size: null, color: (p.colors && p.colors.length > 0) ? p.colors[0].name : null };
+        const sizeErrorEl = el('p', { class: 'form-error', style: 'margin-top:8px;display:none;' }, ['Please select a size']);
+
         const qtyState = { value: 1 };
         const qtyLabel = el('span', {}, [String(qtyState.value)]);
         const addBtn = el('button', {
             class: 'btn btn-primary btn-block', style: 'margin-top:24px;',
             onclick: async () => {
+                if (p.sizes && p.sizes.length > 0 && !selection.size) {
+                    sizeErrorEl.style.display = 'block';
+                    return;
+                }
                 const r = await api('/api/v1/cart', 'POST', { productId: p.id, quantity: qtyState.value });
                 if (r.success) { toast('Added to bag'); updateCartBadge(); }
                 else toast(r.error ? r.error.message : 'Could not add to bag');
             }
         }, [p.stockQty > 0 ? 'Add to bag' : 'Notify me']);
         if (p.stockQty <= 0) addBtn.disabled = true;
+
+        const sizeSelector = (p.sizes && p.sizes.length > 0) ? el('div', { class: 'pd-variant-group' }, [
+            el('p', { class: 'pd-variant-label' }, ['Size']),
+            el('div', { class: 'size-row' }, p.sizes.map((label) => el('button', {
+                type: 'button',
+                class: 'size-box',
+                onclick: (e) => {
+                    selection.size = label;
+                    sizeErrorEl.style.display = 'none';
+                    Array.from(e.currentTarget.parentElement.children).forEach((c) => c.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                }
+            }, [label]))),
+            sizeErrorEl
+        ]) : null;
+
+        const colorNameLabel = el('span', { class: 'color-name' }, [selection.color || '']);
+        const colorSelector = (p.colors && p.colors.length > 0) ? el('div', { class: 'pd-variant-group' }, [
+            el('p', { class: 'pd-variant-label' }, ['Color — ', colorNameLabel]),
+            el('div', { class: 'color-row' }, p.colors.map((c, i) => el('button', {
+                type: 'button',
+                class: 'color-swatch' + (i === 0 ? ' active' : ''),
+                style: 'background-color:' + c.hex + ';',
+                title: c.name,
+                'aria-label': c.name,
+                onclick: (e) => {
+                    selection.color = c.name;
+                    colorNameLabel.textContent = c.name;
+                    Array.from(e.currentTarget.parentElement.children).forEach((el2) => el2.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                }
+            }, [])))
+        ]) : null;
 
         const saveBtn = el('button', {
             class: 'btn btn-outline btn-block', style: 'margin-top:12px;',
@@ -223,6 +263,8 @@
                 ])
                 : el('p', { class: 'pd-price' }, [money(p.price)]),
             el('p', { style: 'color:var(--muted);line-height:1.7;' }, [p.description || '']),
+            colorSelector,
+            sizeSelector,
             el('div', { class: 'qty-control', style: 'margin-top:24px;' }, [
                 el('button', { type: 'button', onclick: () => { if (qtyState.value > 1) { qtyState.value--; qtyLabel.textContent = qtyState.value; } } }, ['−']),
                 qtyLabel,

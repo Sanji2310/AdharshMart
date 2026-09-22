@@ -19,6 +19,10 @@ public class ProductDTO {
     private String imageUrl;
     /** Full gallery: imageUrl (primary) followed by every product_images row, in sort_order. */
     private List<String> images;
+    /** Selectable size options (e.g. S/M/L or 41/42) — empty for categories with no sizing (bags, some accessories). */
+    private List<String> sizes;
+    /** Selectable color swatches — name + hex, in sort_order. */
+    private List<ColorOptionDTO> colors;
     private boolean active;
     private LocalDateTime createdAt;
     private double averageRating;
@@ -145,6 +149,22 @@ public class ProductDTO {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public List<String> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(List<String> sizes) {
+        this.sizes = sizes;
+    }
+
+    public List<ColorOptionDTO> getColors() {
+        return colors;
+    }
+
+    public void setColors(List<ColorOptionDTO> colors) {
+        this.colors = colors;
     }
 
     public boolean isActive() {

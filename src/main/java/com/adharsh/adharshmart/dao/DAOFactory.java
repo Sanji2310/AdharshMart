@@ -34,6 +34,14 @@ public final class DAOFactory {
         return new ProductImageDAOImpl(dataSource());
     }
 
+    public static ProductSizeDAO productSizeDAO() {
+        return new ProductSizeDAOImpl(dataSource());
+    }
+
+    public static ProductColorDAO productColorDAO() {
+        return new ProductColorDAOImpl(dataSource());
+    }
+
     public static CartDAO cartDAO() {
         return new CartDAOImpl(dataSource());
     }

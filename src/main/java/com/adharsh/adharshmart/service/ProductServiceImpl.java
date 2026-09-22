@@ -1,33 +1,43 @@
 package com.adharsh.adharshmart.service;
 
+import com.adharsh.adharshmart.dao.ProductColorDAO;
 import com.adharsh.adharshmart.dao.ProductDAO;
 import com.adharsh.adharshmart.dao.ProductImageDAO;
+import com.adharsh.adharshmart.dao.ProductSizeDAO;
 import com.adharsh.adharshmart.dao.ReviewDAO;
+import com.adharsh.adharshmart.dto.ColorOptionDTO;
 import com.adharsh.adharshmart.dto.ProductDTO;
 import com.adharsh.adharshmart.exception.DataAccessException;
 import com.adharsh.adharshmart.exception.NotFoundException;
 import com.adharsh.adharshmart.exception.UnauthorizedException;
 import com.adharsh.adharshmart.exception.ValidationException;
 import com.adharsh.adharshmart.model.Product;
+import com.adharsh.adharshmart.model.ProductColor;
 import com.adharsh.adharshmart.model.ProductImage;
+import com.adharsh.adharshmart.model.ProductSize;
 import com.adharsh.adharshmart.util.ValidationUtil;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/** Business rules for F2/F3 — depends on {@link ProductDAO}, {@link ReviewDAO} and
- *  {@link ProductImageDAO} interfaces. */
+/** Business rules for F2/F3 — depends on {@link ProductDAO}, {@link ReviewDAO},
+ *  {@link ProductImageDAO}, {@link ProductSizeDAO} and {@link ProductColorDAO} interfaces. */
 public class ProductServiceImpl implements ProductService {
 
     private final ProductDAO productDAO;
     private final ReviewDAO reviewDAO;
     private final ProductImageDAO productImageDAO;
+    private final ProductSizeDAO productSizeDAO;
+    private final ProductColorDAO productColorDAO;
 
-    public ProductServiceImpl(ProductDAO productDAO, ReviewDAO reviewDAO, ProductImageDAO productImageDAO) {
+    public ProductServiceImpl(ProductDAO productDAO, ReviewDAO reviewDAO, ProductImageDAO productImageDAO,
+            ProductSizeDAO productSizeDAO, ProductColorDAO productColorDAO) {
         this.productDAO = productDAO;
         this.reviewDAO = reviewDAO;
         this.productImageDAO = productImageDAO;
+        this.productSizeDAO = productSizeDAO;
+        this.productColorDAO = productColorDAO;
     }
 
     @Override
@@ -128,6 +138,18 @@ public class ProductServiceImpl implements ProductService {
                 gallery.add(img.getImageUrl());
             }
             dto.setImages(gallery);
+
+            List<String> sizes = new ArrayList<>();
+            for (ProductSize size : productSizeDAO.findByProduct(dto.getId())) {
+                sizes.add(size.getLabel());
+            }
+            dto.setSizes(sizes);
+
+            List<ColorOptionDTO> colors = new ArrayList<>();
+            for (ProductColor color : productColorDAO.findByProduct(dto.getId())) {
+                colors.add(new ColorOptionDTO(color.getName(), color.getHexCode()));
+            }
+            dto.setColors(colors);
         } catch (SQLException e) {
             throw new DataAccessException("Failed to load product detail", e);
         }

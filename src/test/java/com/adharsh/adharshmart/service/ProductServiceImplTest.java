@@ -6,8 +6,10 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
+import com.adharsh.adharshmart.dao.ProductColorDAO;
 import com.adharsh.adharshmart.dao.ProductDAO;
 import com.adharsh.adharshmart.dao.ProductImageDAO;
+import com.adharsh.adharshmart.dao.ProductSizeDAO;
 import com.adharsh.adharshmart.dao.ReviewDAO;
 import com.adharsh.adharshmart.dto.ProductDTO;
 import com.adharsh.adharshmart.exception.NotFoundException;
@@ -33,13 +35,19 @@ class ProductServiceImplTest {
     private ReviewDAO reviewDAO;
     @Mock
     private ProductImageDAO productImageDAO;
+    @Mock
+    private ProductSizeDAO productSizeDAO;
+    @Mock
+    private ProductColorDAO productColorDAO;
 
     private ProductService productService;
 
     @BeforeEach
     void setUp() throws Exception {
-        productService = new ProductServiceImpl(productDAO, reviewDAO, productImageDAO);
+        productService = new ProductServiceImpl(productDAO, reviewDAO, productImageDAO, productSizeDAO, productColorDAO);
         lenient().when(productImageDAO.findByProduct(anyLong())).thenReturn(List.of());
+        lenient().when(productSizeDAO.findByProduct(anyLong())).thenReturn(List.of());
+        lenient().when(productColorDAO.findByProduct(anyLong())).thenReturn(List.of());
     }
 
     @Test

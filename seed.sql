@@ -136,6 +136,63 @@ MERGE INTO product_images (id, product_id, image_url, sort_order) KEY (id) VALUE
 
 ALTER TABLE product_images ALTER COLUMN id RESTART WITH 80;
 
+-- Size and color options shown as selectable boxes/swatches on the product detail page.
+-- Footwear gets EU shoe sizes, trousers/belts get waist sizes, other apparel gets S-XXL;
+-- bags and a few accessories (sunglasses, scarf) carry no size rows at all, matching how
+-- real e-commerce only shows a size selector where sizing is actually meaningful.
+MERGE INTO product_sizes (id, product_id, label, sort_order) KEY (id) VALUES
+  (1, 1, 'S', 1), (2, 1, 'M', 2), (3, 1, 'L', 3), (4, 1, 'XL', 4),
+  (5, 2, 'XS', 1), (6, 2, 'S', 2), (7, 2, 'M', 3), (8, 2, 'L', 4),
+  (9, 4, 'XS', 1), (10, 4, 'S', 2), (11, 4, 'M', 3), (12, 4, 'L', 4), (13, 4, 'XL', 5),
+  (14, 5, '39', 1), (15, 5, '40', 2), (16, 5, '41', 3), (17, 5, '42', 4), (18, 5, '43', 5), (19, 5, '44', 6), (20, 5, '45', 7),
+  (21, 6, '28', 1), (22, 6, '30', 2), (23, 6, '32', 3), (24, 6, '34', 4), (25, 6, '36', 5), (26, 6, '38', 6),
+  (27, 8, '39', 1), (28, 8, '40', 2), (29, 8, '41', 3), (30, 8, '42', 4), (31, 8, '43', 5), (32, 8, '44', 6), (33, 8, '45', 7),
+  (34, 9, 'XS', 1), (35, 9, 'S', 2), (36, 9, 'M', 3), (37, 9, 'L', 4), (38, 9, 'XL', 5),
+  (39, 10, 'S', 1), (40, 10, 'M', 2), (41, 10, 'L', 3), (42, 10, 'XL', 4),
+  (43, 11, 'XS', 1), (44, 11, 'S', 2), (45, 11, 'M', 3), (46, 11, 'L', 4),
+  (47, 12, 'XS', 1), (48, 12, 'S', 2), (49, 12, 'M', 3), (50, 12, 'L', 4),
+  (51, 15, 'XS', 1), (52, 15, 'S', 2), (53, 15, 'M', 3), (54, 15, 'L', 4), (55, 15, 'XL', 5),
+  (56, 16, 'S', 1), (57, 16, 'M', 2), (58, 16, 'L', 3), (59, 16, 'XL', 4),
+  (60, 17, '39', 1), (61, 17, '40', 2), (62, 17, '41', 3), (63, 17, '42', 4), (64, 17, '43', 5), (65, 17, '44', 6), (66, 17, '45', 7),
+  (67, 18, '39', 1), (68, 18, '40', 2), (69, 18, '41', 3), (70, 18, '42', 4), (71, 18, '43', 5), (72, 18, '44', 6), (73, 18, '45', 7),
+  (74, 19, '28', 1), (75, 19, '30', 2), (76, 19, '32', 3), (77, 19, '34', 4), (78, 19, '36', 5), (79, 19, '38', 6),
+  (80, 20, 'XS', 1), (81, 20, 'S', 2), (82, 20, 'M', 3), (83, 20, 'L', 4), (84, 20, 'XL', 5),
+  (85, 21, '32', 1), (86, 21, '34', 2), (87, 21, '36', 3), (88, 21, '38', 4), (89, 21, '40', 5),
+  (90, 23, 'S', 1), (91, 23, 'M', 2), (92, 23, 'L', 3), (93, 23, 'XL', 4), (94, 23, 'XXL', 5),
+  (95, 24, 'S', 1), (96, 24, 'M', 2), (97, 24, 'L', 3), (98, 24, 'XL', 4), (99, 24, 'XXL', 5),
+  (100, 25, 'S', 1), (101, 25, 'M', 2), (102, 25, 'L', 3), (103, 25, 'XL', 4), (104, 25, 'XXL', 5);
+
+ALTER TABLE product_sizes ALTER COLUMN id RESTART WITH 105;
+
+MERGE INTO product_colors (id, product_id, name, hex_code, sort_order) KEY (id) VALUES
+  (1, 1, 'Camel', '#C19A6B', 1), (2, 1, 'Charcoal', '#36454F', 2), (3, 1, 'Black', '#1C1C1A', 3),
+  (4, 2, 'Ink Black', '#0B0B0C', 1), (5, 2, 'Ivory', '#F1EDE4', 2),
+  (6, 3, 'Cognac', '#8B4513', 1), (7, 3, 'Black', '#1C1C1A', 2), (8, 3, 'Taupe', '#8B7D6B', 3),
+  (9, 4, 'Oatmeal', '#D8CBB8', 1), (10, 4, 'Charcoal', '#36454F', 2), (11, 4, 'Navy', '#1B2A4A', 3), (12, 4, 'Burgundy', '#6D2E3A', 4),
+  (13, 5, 'Blanc', '#F5F5F0', 1), (14, 5, 'Black', '#1C1C1A', 2),
+  (15, 6, 'Charcoal', '#36454F', 1), (16, 6, 'Navy', '#1B2A4A', 2), (17, 6, 'Black', '#1C1C1A', 3),
+  (18, 7, 'Gunmetal', '#4B4B4D', 1), (19, 7, 'Gold', '#C9A227', 2), (20, 7, 'Tortoise', '#6B4226', 3),
+  (21, 8, 'Volt', '#C6F135', 1), (22, 8, 'Black', '#1C1C1A', 2), (23, 8, 'White', '#F5F5F0', 3),
+  (24, 9, 'Raw Indigo', '#2C3E60', 1), (25, 9, 'Black', '#1C1C1A', 2),
+  (26, 10, 'Black', '#1C1C1A', 1), (27, 10, 'Olive', '#5B5A3A', 2), (28, 10, 'Navy', '#1B2A4A', 3),
+  (29, 11, 'Terracotta', '#B4592B', 1), (30, 11, 'Black', '#1C1C1A', 2), (31, 11, 'Emerald', '#2F5D50', 3),
+  (32, 12, 'Black', '#0B0B0C', 1), (33, 12, 'Deep Red', '#7A1F2B', 2), (34, 12, 'Midnight Blue', '#1B2140', 3),
+  (35, 13, 'Waxed Olive', '#5B5A3A', 1), (36, 13, 'Tan', '#C19A6B', 2),
+  (37, 14, 'Black', '#1C1C1A', 1), (38, 14, 'Cognac', '#8B4513', 2), (39, 14, 'Cream', '#EFE6D8', 3),
+  (40, 15, 'Charcoal', '#36454F', 1), (41, 15, 'Camel', '#C19A6B', 2), (42, 15, 'Black', '#1C1C1A', 3), (43, 15, 'Forest', '#2F4538', 4),
+  (44, 16, 'Oatmeal', '#D8CBB8', 1), (45, 16, 'Charcoal', '#36454F', 2),
+  (46, 17, 'Black', '#1C1C1A', 1), (47, 17, 'Brown', '#5C3A21', 2),
+  (48, 18, 'Burgundy', '#6D2E3A', 1), (49, 18, 'Black', '#1C1C1A', 2), (50, 18, 'Tan', '#C19A6B', 3),
+  (51, 19, 'Indigo', '#2C3E60', 1), (52, 19, 'Black', '#1C1C1A', 2),
+  (53, 20, 'Charcoal', '#36454F', 1), (54, 20, 'Sand', '#C9B896', 2),
+  (55, 21, 'Black', '#1C1C1A', 1), (56, 21, 'Cognac', '#8B4513', 2),
+  (57, 22, 'Gold Archive', '#C9A227', 1), (58, 22, 'Crimson Archive', '#7A1F2B', 2),
+  (59, 23, 'Navy', '#1B2A4A', 1), (60, 23, 'Charcoal', '#36454F', 2), (61, 23, 'Black', '#1C1C1A', 3),
+  (62, 24, 'Charcoal', '#36454F', 1), (63, 24, 'Navy', '#1B2A4A', 2),
+  (64, 25, 'White', '#F5F5F0', 1), (65, 25, 'Sky Blue', '#A9C4DE', 2), (66, 25, 'Ecru', '#EFE6D8', 3);
+
+ALTER TABLE product_colors ALTER COLUMN id RESTART WITH 67;
+
 MERGE INTO reviews (id, product_id, user_id, rating, comment, created_at) KEY (id) VALUES
   (1, 1, 3, 5, 'Impeccable tailoring, worth every rupee.', CURRENT_TIMESTAMP),
   (2, 5, 3, 4, 'Fits true to size, très chic.', CURRENT_TIMESTAMP);
