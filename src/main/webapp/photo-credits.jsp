@@ -29,8 +29,8 @@
         <tbody>
             <tr>
                 <td>Homepage hero</td>
-                <td><a href="https://unsplash.com/@floriancordier?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Florian Cordier</a></td>
-                <td><a href="https://unsplash.com/photos/a-woman-in-a-black-dress-posing-for-a-picture-pv52J-nUYV0?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+                <td><a href="https://unsplash.com/@kovalskihelga?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Olga Kovalski</a></td>
+                <td><a href="https://unsplash.com/photos/a-close-up-of-a-black-and-grey-blanket-y1pt-_i-4pg?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
             </tr>
             <tr>
                 <td>Outerwear (Atelier Wool Overcoat)</td>

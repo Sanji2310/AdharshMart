@@ -13,12 +13,6 @@
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 
 <section class="hero">
-    <video class="hero-video" autoplay muted loop playsinline
-           poster="https://images.unsplash.com/photo-1695048994291-2e96839a0a3a?q=80&amp;w=1600&amp;fit=crop&amp;auto=format">
-        <source src="https://platform2.cdn.acedata.cloud/seedance/390e0a31-f7c8-4d05-886c-c33946e781e2.mp4" type="video/mp4">
-    </video>
-    <div class="hero-overlay"></div>
-    <img class="hero-motif" src="${pageContext.request.contextPath}/images/mandala.svg" alt="" aria-hidden="true">
     <div class="hero-content">
         <p class="eyebrow">New season — Autumn/Winter</p>
         <h1 class="display">Considered goods,<br>made to last.</h1>
@@ -44,7 +38,7 @@
     </div>
 </section>
 
-<section class="category-banner reveal">
+<section class="category-banner">
     <img src="https://images.unsplash.com/photo-1777448067492-b665d9e0b29c?q=80&amp;w=1600&amp;fit=crop&amp;auto=format" alt="Outerwear, the Autumn/Winter edit">
     <div class="category-banner-copy">
         <p class="eyebrow">The Autumn/Winter edit</p>
@@ -53,7 +47,7 @@
     </div>
 </section>
 
-<section class="section container sale-section reveal" style="padding-top:0;">
+<section class="section container sale-section" style="padding-top:0;">
     <div class="section-head">
         <div>
             <p class="eyebrow">Limited time</p>
@@ -66,7 +60,7 @@
     </div>
 </section>
 
-<section class="section container reveal" style="padding-top:0;">
+<section class="section container" style="padding-top:0;">
     <div class="section-head">
         <div>
             <p class="eyebrow">Shop by category</p>

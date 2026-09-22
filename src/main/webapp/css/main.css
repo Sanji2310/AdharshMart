@@ -102,25 +102,6 @@ body::after {
   z-index: 2;
 }
 
-/* Mandala corner ornaments — the sitewide decorative touch every page shares (replaces the
-   old WebGL ambient background: same "framed" signature, none of the failure modes).
-   Real <img> elements (images/mandala.svg, transparent background) — not a CSS background-image. */
-.mandala-corner {
-  position: fixed;
-  width: 380px;
-  height: 380px;
-  object-fit: contain;
-  opacity: 0.08;
-  pointer-events: none;
-  z-index: 1;
-  background: none;
-}
-.mandala-corner--tr { top: -80px; right: -80px; }
-.mandala-corner--bl { bottom: -80px; left: -80px; transform: rotate(180deg); }
-@media (max-width: 720px) {
-  .mandala-corner { width: 220px; height: 220px; }
-}
-
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; background: var(--paper-dim); }
 button { font-family: inherit; cursor: pointer; }
@@ -230,11 +211,9 @@ h1, h2, h3, .display {
 .btn-sm { padding: 9px 16px; font-size: 11px; }
 
 /* ---------- Hero ---------- */
-/* FHD video loop (AI-generated, see PR notes) fills the hero; a still Unsplash portrait
-   (photo by Florian Cordier — attribution in footer.jspf) is both the <video poster> shown
-   before playback starts and the CSS fallback background if the video source can't load.
-   A dark gradient overlay div sits above the video for text legibility; the mandala watermark
-   rides on top as the same accent every other page uses. */
+/* Static dark wool boucle fabric close-up (photo by Olga Kovalski — attribution in
+   footer.jspf), matching the "wool, leather, silk" copy. A dark gradient sits over it for
+   text legibility. */
 .hero {
   position: relative;
   min-height: 88vh;
@@ -242,41 +221,10 @@ h1, h2, h3, .display {
   align-items: flex-end;
   overflow: hidden;
   background:
-    url("https://images.unsplash.com/photo-1695048994291-2e96839a0a3a?q=80&w=1600&fit=crop&auto=format") center 22% / cover no-repeat,
+    linear-gradient(100deg, var(--ink) 0%, rgba(10, 10, 10, 0.72) 40%, rgba(10, 10, 10, 0.32) 100%),
+    url("https://images.unsplash.com/photo-1738747597354-15b75122e121?q=80&w=1600&fit=crop&auto=format") center / cover no-repeat,
     linear-gradient(160deg, #1c1c1a 0%, var(--ink) 55%, #050504 100%);
   color: var(--paper);
-}
-.hero-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-}
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(100deg, var(--ink) 0%, rgba(10, 10, 10, 0.72) 40%, rgba(10, 10, 10, 0.32) 100%);
-}
-.hero-motif {
-  position: absolute;
-  top: 50%;
-  right: -8%;
-  width: min(66vw, 860px);
-  height: min(66vw, 860px);
-  object-fit: contain;
-  transform: translateY(-50%);
-  opacity: 0.14;
-  pointer-events: none;
-  mix-blend-mode: overlay;
-  background: none;
-  z-index: 1;
-}
-@media (max-width: 900px) {
-  .hero-motif { opacity: 0.1; right: -20%; }
-  .hero { background-position: center 15%; }
 }
 .hero-content {
   position: relative;
@@ -506,43 +454,8 @@ table.data-table td { padding: 16px; border-bottom: 1px solid var(--line); verti
 }
 
 /* ---------- Motion ---------- */
-/* Scroll-triggered section reveal: JS (initScrollReveal in app.js) toggles .is-visible via
-   IntersectionObserver on any element marked .reveal. Product card entrance is CSS-only
-   (animation, not IntersectionObserver) since cards are injected dynamically after a fetch —
-   the animation just plays on insertion instead of needing an observer re-scan. */
-@media (prefers-reduced-motion: no-preference) {
-  .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .reveal.is-visible { opacity: 1; transform: translateY(0); }
-
-  .hero-content .eyebrow,
-  .hero-content h1,
-  .hero-content p,
-  .hero-content .hero-actions {
-    opacity: 0;
-    transform: translateY(22px);
-    animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-  .hero-content .eyebrow { animation-delay: 0.15s; }
-  .hero-content h1 { animation-delay: 0.28s; }
-  .hero-content p { animation-delay: 0.44s; }
-  .hero-content .hero-actions { animation-delay: 0.58s; }
-  @keyframes hero-rise { to { opacity: 1; transform: translateY(0); } }
-
-  /* backwards, not both/forwards: a lingering "forwards" fill would keep pinning `transform`
-     to the animation's own end value after it finishes, blocking the :hover lift below. */
-  .product-card { animation: card-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
-  .product-grid .product-card:nth-child(2) { animation-delay: 0.05s; }
-  .product-grid .product-card:nth-child(3) { animation-delay: 0.1s; }
-  .product-grid .product-card:nth-child(4) { animation-delay: 0.15s; }
-  .product-grid .product-card:nth-child(5) { animation-delay: 0.2s; }
-  .product-grid .product-card:nth-child(6) { animation-delay: 0.25s; }
-  .product-grid .product-card:nth-child(n+7) { animation-delay: 0.3s; }
-  @keyframes card-rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-}
+/* Deliberately minimal: a plain opacity/transform transition on hover for cards and buttons.
+   No entrance/reveal/stagger choreography — that read as gimmicky rather than premium. */
 @media (prefers-reduced-motion: reduce) {
-  .product-card, .btn, .product-card .thumb img { transition: none !important; animation: none !important; }
+  .product-card, .btn, .product-card .thumb img { transition: none !important; }
 }

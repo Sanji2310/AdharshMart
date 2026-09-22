@@ -43,35 +43,13 @@
 
     function money(amount) {
         const n = typeof amount === 'number' ? amount : parseFloat(amount || 0);
-        return '₹' + n.toFixed(2);
+        return '₹' + new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n);
     }
 
     function stars(rating) {
         const full = Math.round(rating || 0);
         return '★'.repeat(full) + '☆'.repeat(5 - full);
     }
-
-    // Scroll-triggered section reveal (any static element marked .reveal). Product card
-    // entrance is handled separately, by CSS animation alone (see main.css), since cards are
-    // injected dynamically after a fetch and an observer would need re-scanning on every render.
-    function initScrollReveal() {
-        const targets = document.querySelectorAll('.reveal');
-        if (!targets.length) return;
-        if (!('IntersectionObserver' in window)) {
-            targets.forEach((t) => t.classList.add('is-visible'));
-            return;
-        }
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
-        targets.forEach((t) => observer.observe(t));
-    }
-    initScrollReveal();
 
     function toast(message) {
         let node = document.querySelector('.toast');

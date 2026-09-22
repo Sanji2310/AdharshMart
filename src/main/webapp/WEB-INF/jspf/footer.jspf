@@ -31,9 +31,3 @@
         </div>
     </div>
 </footer>
-
-<!-- Shared mandala motif (Section: cross-page visual consistency). Real transparent-background
-     <img> elements (images/mandala.svg) — not a CSS background-image asset — included here so
-     every page gets the same decorative rosette in both corners automatically. -->
-<img class="mandala-corner mandala-corner--tr" src="${pageContext.request.contextPath}/images/mandala.svg" alt="" aria-hidden="true">
-<img class="mandala-corner mandala-corner--bl" src="${pageContext.request.contextPath}/images/mandala.svg" alt="" aria-hidden="true">
