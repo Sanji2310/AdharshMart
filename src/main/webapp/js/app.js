@@ -120,13 +120,41 @@
         onSale.slice(0, 4).forEach((p) => container.appendChild(productCard(p)));
     }
 
+    function sortProducts(list, sortKey) {
+        const sorted = list.slice();
+        switch (sortKey) {
+            case 'price-asc': sorted.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)); break;
+            case 'price-desc': sorted.sort((a, b) => parseFloat(b.price) - parseFloat(a.price)); break;
+            case 'name-asc': sorted.sort((a, b) => a.name.localeCompare(b.name)); break;
+            case 'newest': sorted.sort((a, b) => (b.id || 0) - (a.id || 0)); break;
+            default: break;
+        }
+        return sorted;
+    }
+
     async function initProductsPage() {
         const grid = document.getElementById('product-grid');
         const params = new URLSearchParams(window.location.search);
         const keywordInput = document.getElementById('keyword');
         const categorySelect = document.getElementById('category');
+        const saleOnlyInput = document.getElementById('sale-only');
+        const sortSelect = document.getElementById('sort');
         if (params.get('keyword')) keywordInput.value = params.get('keyword');
         if (params.get('category')) categorySelect.value = params.get('category');
+        if (params.get('sale') === 'true') saleOnlyInput.checked = true;
+
+        let results = [];
+
+        function render() {
+            const filtered = saleOnlyInput.checked ? results.filter(isOnSale) : results;
+            const sorted = sortProducts(filtered, sortSelect.value);
+            grid.innerHTML = '';
+            if (sorted.length === 0) {
+                grid.appendChild(el('p', { class: 'empty-state' }, ['No products match your search.']));
+                return;
+            }
+            sorted.forEach((p) => grid.appendChild(productCard(p)));
+        }
 
         async function load() {
             const keyword = keywordInput.value.trim();
@@ -134,19 +162,18 @@
             const qs = new URLSearchParams();
             if (keyword) qs.set('keyword', keyword);
             if (category) qs.set('category', category);
-            grid.innerHTML = '';
+            grid.innerHTML = '<p class="empty-state">Loading…</p>';
             const res = await api('/api/v1/products' + (qs.toString() ? '?' + qs.toString() : ''), 'GET');
-            if (!res.success || !res.data || res.data.length === 0) {
-                grid.appendChild(el('p', { class: 'empty-state' }, ['No products match your search.']));
-                return;
-            }
-            res.data.forEach((p) => grid.appendChild(productCard(p)));
+            results = res.success && res.data ? res.data : [];
+            render();
         }
 
         document.getElementById('filter-form').addEventListener('submit', (e) => {
             e.preventDefault();
             load();
         });
+        saleOnlyInput.addEventListener('change', render);
+        sortSelect.addEventListener('change', render);
         load();
     }
 

@@ -32,6 +32,17 @@
             <option value="Formalwear">Formalwear</option>
             <option value="Shirts">Shirts</option>
         </select>
+        <label class="filter-check">
+            <input type="checkbox" id="sale-only" name="saleOnly">
+            On sale
+        </label>
+        <select id="sort" name="sort">
+            <option value="">Sort: Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name-asc">Name: A&ndash;Z</option>
+            <option value="newest">Newest</option>
+        </select>
         <button type="submit" class="btn btn-outline">Filter</button>
     </form>
     <div class="product-grid" id="product-grid">

@@ -211,9 +211,9 @@ h1, h2, h3, .display {
 .btn-sm { padding: 9px 16px; font-size: 11px; }
 
 /* ---------- Hero ---------- */
-/* Static dark wool boucle fabric close-up (photo by Olga Kovalski — attribution in
-   footer.jspf), matching the "wool, leather, silk" copy. A dark gradient sits over it for
-   text legibility. */
+/* Warm woven fabric close-up (photo by Victor Volkov — attribution in footer.jspf), matching
+   the "wool, leather, silk" copy with a lighter, less heavy tone than the previous dark boucle.
+   A dark gradient sits over it for text legibility. */
 /* Deliberately fixed colors, not var(--ink)/var(--paper): this section always sits on a dark
    photo, regardless of site theme, so its text/background must not flip with dark mode. */
 .hero {
@@ -224,7 +224,7 @@ h1, h2, h3, .display {
   overflow: hidden;
   background:
     linear-gradient(100deg, #0a0a0a 0%, rgba(10, 10, 10, 0.72) 40%, rgba(10, 10, 10, 0.32) 100%),
-    url("https://images.unsplash.com/photo-1738747597354-15b75122e121?q=80&w=1600&fit=crop&auto=format") center / cover no-repeat,
+    url("https://images.unsplash.com/photo-1705493254146-710211d851fa?q=80&w=1600&fit=crop&auto=format") center / cover no-repeat,
     linear-gradient(160deg, #1c1c1a 0%, #0a0a0a 55%, #050504 100%);
   color: #faf9f6;
 }
@@ -337,6 +337,12 @@ h1, h2, h3, .display {
   color: var(--ink); font-family: var(--font-body); font-size: 13px; border-radius: var(--radius);
   min-width: 180px;
 }
+.filter-check {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 0 16px; border: 1px solid var(--line); border-radius: var(--radius);
+  font-size: 13px; color: var(--ink); cursor: pointer; user-select: none;
+}
+.filter-check input { min-width: 0; width: 16px; height: 16px; accent-color: var(--gold-deep); cursor: pointer; }
 
 /* ---------- Forms ---------- */
 .form-shell {

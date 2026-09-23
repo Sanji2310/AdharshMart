@@ -69,19 +69,19 @@
     </div>
     <div class="product-grid">
         <a class="product-card" href="products.jsp?category=Outerwear">
-            <div class="thumb"><img src="https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&amp;w=700&amp;fit=crop&amp;auto=format" alt="Outerwear"></div>
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1708523842501-1619478cea1f?q=80&amp;w=700&amp;fit=crop&amp;auto=format" alt="Outerwear"></div>
             <p class="name">Outerwear</p>
         </a>
         <a class="product-card" href="products.jsp?category=Footwear">
-            <div class="thumb"><img src="https://images.unsplash.com/photo-1608379743498-ac08f6d022ba?q=80&amp;w=700&amp;fit=crop&amp;auto=format" alt="Footwear"></div>
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1550998358-08b4f83dc345?q=80&amp;w=700&amp;fit=crop&amp;auto=format" alt="Footwear"></div>
             <p class="name">Footwear</p>
         </a>
         <a class="product-card" href="products.jsp?category=Bags">
-            <div class="thumb"><img src="https://images.unsplash.com/photo-1624687943971-e86af76d57de?q=80&amp;w=700&amp;fit=crop&amp;auto=format" alt="Bags"></div>
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1691480150204-66dd1eb77391?q=80&amp;w=700&amp;fit=crop&amp;auto=format" alt="Bags"></div>
             <p class="name">Bags</p>
         </a>
         <a class="product-card" href="products.jsp?category=Knitwear">
-            <div class="thumb"><img src="https://images.unsplash.com/photo-1604573824419-289a9a10672c?q=80&amp;w=700&amp;fit=crop&amp;auto=format" alt="Knitwear"></div>
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&amp;w=700&amp;fit=crop&amp;auto=format" alt="Knitwear"></div>
             <p class="name">Knitwear</p>
         </a>
     </div>
