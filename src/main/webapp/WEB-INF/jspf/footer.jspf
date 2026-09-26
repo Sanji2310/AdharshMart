@@ -1,0 +1,33 @@
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <p class="wordmark" style="font-size:20px;margin-bottom:12px;">Adharsh<em>Mart</em></p>
+                <p style="max-width:32ch;">A multi-seller marketplace for considered, well-made things &mdash; built as an
+                    Anna University R2025 Java capstone (Servlets &middot; JDBC &middot; Tomcat &middot; H2).</p>
+            </div>
+            <div>
+                <h4>Shop</h4>
+                <a href="${pageContext.request.contextPath}/products.jsp">All products</a>
+                <a href="${pageContext.request.contextPath}/products.jsp?category=Dresses">Dresses</a>
+                <a href="${pageContext.request.contextPath}/products.jsp?category=Bags">Bags</a>
+            </div>
+            <div>
+                <h4>Account</h4>
+                <a href="${pageContext.request.contextPath}/login.jsp">Sign in</a>
+                <a href="${pageContext.request.contextPath}/register.jsp">Create account</a>
+                <a href="${pageContext.request.contextPath}/orders.jsp">Order history</a>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <a href="#" onclick="document.getElementById('chat-toggle').click(); return false;">Chat with us</a>
+                <a href="${pageContext.request.contextPath}/api/v1/health" target="_blank">System status</a>
+                <a href="${pageContext.request.contextPath}/photo-credits.jsp">Photo credits</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 AdharshMart. Capstone build.</span>
+            <span>Made with Servlets, JDBC &amp; H2</span>
+        </div>
+    </div>
+</footer>

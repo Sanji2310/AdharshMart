@@ -1,0 +1,126 @@
+-- AdharshMart schema — H2 dialect
+-- Mirrors db/migrations/V1__init_schema.sql .. V2__add_reviews_table.sql combined
+-- for one-shot bootstrap (used by the reference deployment and by local dev).
+
+CREATE TABLE IF NOT EXISTS users (
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name          VARCHAR(120) NOT NULL,
+    email         VARCHAR(190) NOT NULL,
+    password_hash VARCHAR(60)  NOT NULL,
+    role          VARCHAR(10)  NOT NULL CHECK (role IN ('BUYER', 'SELLER', 'ADMIN')),
+    created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uq_users_email UNIQUE (email)
+);
+
+CREATE TABLE IF NOT EXISTS products (
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+    seller_id   BIGINT NOT NULL,
+    name        VARCHAR(160) NOT NULL,
+    description VARCHAR(2000),
+    price       DECIMAL(10, 2) NOT NULL CHECK (price >= 0),
+    compare_at_price DECIMAL(10, 2),
+    stock_qty   INT NOT NULL DEFAULT 0 CHECK (stock_qty >= 0),
+    category    VARCHAR(80) NOT NULL,
+    image_url   VARCHAR(500),
+    active      BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_products_seller FOREIGN KEY (seller_id) REFERENCES users (id),
+    CONSTRAINT chk_products_compare_at_price CHECK (compare_at_price IS NULL OR compare_at_price > price)
+);
+CREATE INDEX IF NOT EXISTS idx_products_seller_id ON products (seller_id);
+CREATE INDEX IF NOT EXISTS idx_products_category ON products (category);
+
+CREATE TABLE IF NOT EXISTS orders (
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    buyer_id      BIGINT NOT NULL,
+    status        VARCHAR(10) NOT NULL DEFAULT 'PENDING'
+                  CHECK (status IN ('PENDING', 'CONFIRMED', 'SHIPPED', 'DELIVERED', 'CANCELLED')),
+    total_amount  DECIMAL(10, 2) NOT NULL CHECK (total_amount >= 0),
+    created_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_orders_buyer FOREIGN KEY (buyer_id) REFERENCES users (id)
+);
+CREATE INDEX IF NOT EXISTS idx_orders_buyer_id ON orders (buyer_id);
+
+CREATE TABLE IF NOT EXISTS order_items (
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    order_id   BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    quantity   INT NOT NULL CHECK (quantity > 0),
+    unit_price DECIMAL(10, 2) NOT NULL CHECK (unit_price >= 0),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_order_items_order FOREIGN KEY (order_id) REFERENCES orders (id),
+    CONSTRAINT fk_order_items_product FOREIGN KEY (product_id) REFERENCES products (id)
+);
+CREATE INDEX IF NOT EXISTS idx_order_items_order_id ON order_items (order_id);
+CREATE INDEX IF NOT EXISTS idx_order_items_product_id ON order_items (product_id);
+
+CREATE TABLE IF NOT EXISTS cart_items (
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id    BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    quantity   INT NOT NULL CHECK (quantity > 0),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_cart_items_user FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT fk_cart_items_product FOREIGN KEY (product_id) REFERENCES products (id),
+    CONSTRAINT uq_cart_user_product UNIQUE (user_id, product_id)
+);
+CREATE INDEX IF NOT EXISTS idx_cart_items_user_id ON cart_items (user_id);
+CREATE INDEX IF NOT EXISTS idx_cart_items_product_id ON cart_items (product_id);
+
+CREATE TABLE IF NOT EXISTS reviews (
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT NOT NULL,
+    user_id    BIGINT NOT NULL,
+    rating     INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    comment    VARCHAR(1000),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_reviews_product FOREIGN KEY (product_id) REFERENCES products (id),
+    CONSTRAINT fk_reviews_user FOREIGN KEY (user_id) REFERENCES users (id)
+);
+CREATE INDEX IF NOT EXISTS idx_reviews_product_id ON reviews (product_id);
+CREATE INDEX IF NOT EXISTS idx_reviews_user_id ON reviews (user_id);
+
+-- Additional gallery images per product (products.image_url stays the primary/cover shot,
+-- used everywhere a single thumbnail is needed — grid cards, cart lines, etc). sort_order
+-- controls left-to-right thumbnail order on the product detail page.
+CREATE TABLE IF NOT EXISTS product_images (
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT NOT NULL,
+    image_url  VARCHAR(500) NOT NULL,
+    sort_order INT NOT NULL DEFAULT 0,
+    CONSTRAINT fk_product_images_product FOREIGN KEY (product_id) REFERENCES products (id)
+);
+CREATE INDEX IF NOT EXISTS idx_product_images_product_id ON product_images (product_id);
+
+-- Size and color options per product, shown as selectable boxes/swatches on the product detail
+-- page. Purely descriptive/browsing metadata — stock stays tracked at the product level.
+CREATE TABLE IF NOT EXISTS product_sizes (
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT NOT NULL,
+    label      VARCHAR(20) NOT NULL,
+    sort_order INT NOT NULL DEFAULT 0,
+    CONSTRAINT fk_product_sizes_product FOREIGN KEY (product_id) REFERENCES products (id)
+);
+CREATE INDEX IF NOT EXISTS idx_product_sizes_product_id ON product_sizes (product_id);
+
+CREATE TABLE IF NOT EXISTS product_colors (
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT NOT NULL,
+    name       VARCHAR(40) NOT NULL,
+    hex_code   VARCHAR(7) NOT NULL,
+    sort_order INT NOT NULL DEFAULT 0,
+    CONSTRAINT fk_product_colors_product FOREIGN KEY (product_id) REFERENCES products (id)
+);
+CREATE INDEX IF NOT EXISTS idx_product_colors_product_id ON product_colors (product_id);
+
+CREATE TABLE IF NOT EXISTS wishlist_items (
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id    BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_wishlist_items_user FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT fk_wishlist_items_product FOREIGN KEY (product_id) REFERENCES products (id),
+    CONSTRAINT uq_wishlist_user_product UNIQUE (user_id, product_id)
+);
+CREATE INDEX IF NOT EXISTS idx_wishlist_items_user_id ON wishlist_items (user_id);
+CREATE INDEX IF NOT EXISTS idx_wishlist_items_product_id ON wishlist_items (product_id);

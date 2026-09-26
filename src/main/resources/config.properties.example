@@ -1,0 +1,15 @@
+# Copy to config.properties (same directory) for local/deployed runs.
+# config.properties is gitignored — never commit real credentials or API keys.
+# Every value here also has an env-var fallback (see .env.example) so the same
+# .war runs unmodified across environments (AppConfig checks classpath first, then env).
+
+db.url=jdbc:h2:mem:adharshmart;DB_CLOSE_DELAY=-1
+db.username=sa
+db.password=
+db.pool.size=10
+
+# provider: mock (default, no network/API key needed) | gemini
+ai.chatbot.provider=mock
+ai.chatbot.apiKey=
+ai.chatbot.model=gemini-flash-lite-latest
+ai.chatbot.timeoutSeconds=30

@@ -1,0 +1,10 @@
+.git
+target
+*.war
+*.mv.db
+*.trace.db
+config.properties
+.env
+.idea
+*.iml
+.vscode
