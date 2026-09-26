@@ -19,10 +19,12 @@
         <a href="https://unsplash.com/?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Unsplash</a>,
         used under the <a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash License</a>.
         Photos are stock imagery in the same category as each listing (not photography of the
-        literal product) &mdash; see the project README for context. Each product detail page also
-        shows 2&ndash;3 additional gallery photos, sourced the same way. Full per-photo attribution
-        below currently covers the original 8-product catalog; attribution rows for the expanded
-        catalog and the new gallery photos are a tracked follow-up (README &sect;8).
+        literal product) &mdash; see the project README for context. Each item was individually
+        checked for a genuinely isolated white or neutral background with no dominant person in
+        frame; a small number of products were renamed to match a piece with real clean product
+        photography available, where no such photo existed for the original concept. Full
+        per-photo attribution below covers the majority of the 25-product catalog; the remaining
+        rows are a tracked follow-up (README &sect;8).
     </p>
     <table class="data-table">
         <thead><tr><th>Used for</th><th>Photographer</th><th>Source</th></tr></thead>
@@ -33,14 +35,14 @@
                 <td><a href="https://unsplash.com/photos/a-close-up-of-a-brown-and-tan-fabric-K3BcdJfO0iw?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
             </tr>
             <tr>
-                <td>Outerwear (Cotton Zip Hoodie)</td>
-                <td><a href="https://unsplash.com/@mediamodifier?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Mediamodifier</a></td>
-                <td><a href="https://unsplash.com/photos/white-hoodie-and-distressed-jeans-kJXGTOY1wLQ?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+                <td>Outerwear (Linen Blazer)</td>
+                <td><a href="https://unsplash.com/@linenese_lifestyle?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Robert Richman</a></td>
+                <td><a href="https://unsplash.com/photos/a-row-of-shirts-hanging-on-a-clothes-rack-SVMaSpddK7o?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
             </tr>
             <tr>
-                <td>Dresses (Ribbed Knit Column Dress)</td>
-                <td><a href="https://unsplash.com/@enginakyurt?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">engin akyurt</a></td>
-                <td><a href="https://unsplash.com/photos/woman-in-black-midi-dress-mqQAwtYXd0s?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+                <td>Formalwear (White Tuxedo Jacket)</td>
+                <td><a href="https://unsplash.com/@brunxs?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Brunxs</a></td>
+                <td><a href="https://unsplash.com/photos/white-tuxedo-jacket-on-wall-mqAMc2Nsk8k?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
             </tr>
             <tr>
                 <td>Bags (Leather Structured Tote)</td>
@@ -48,19 +50,34 @@
                 <td><a href="https://unsplash.com/photos/a-brown-leather-handbag-on-a-white-background-IFlg3kFbR0E?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
             </tr>
             <tr>
+                <td>Bags (Mini Crossbody Bag)</td>
+                <td><a href="https://unsplash.com/@personal_graphic?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">personalgraphic.com</a></td>
+                <td><a href="https://unsplash.com/photos/a-brown-leather-handbag-on-a-white-background-zxPo13geJ5U?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+            </tr>
+            <tr>
+                <td>Bags (Canvas Travel Pouch)</td>
+                <td><a href="https://unsplash.com/@mockupgraphics?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Mockup Graphics</a></td>
+                <td><a href="https://unsplash.com/photos/brown-and-white-polka-dot-textile-1CZ7n_bBnhk?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+            </tr>
+            <tr>
                 <td>Knitwear (Cashmere Crewneck)</td>
                 <td><a href="https://unsplash.com/@mediamodifier?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Mediamodifier</a></td>
-                <td><a href="https://unsplash.com/photos/white-crew-neck-long-sleeve-shirt-7cERndkOyDw?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+                <td><a href="https://unsplash.com/photos/white-crew-neck-t-shirt-elbKS4DY21g?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
             </tr>
             <tr>
-                <td>Footwear (Leather Derby Shoe)</td>
-                <td><a href="https://unsplash.com/@lily1910?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Lily Johnson</a></td>
-                <td><a href="https://unsplash.com/photos/a-pair-of-brown-shoes-on-a-white-surface-BEpF9cqNAic?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+                <td>Knitwear (Merino Wool Turtleneck)</td>
+                <td><a href="https://unsplash.com/@shelter?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Shelter</a></td>
+                <td><a href="https://unsplash.com/photos/white-knit-sweater-on-white-wooden-surface-xEraWP_ZRGU?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
             </tr>
             <tr>
-                <td>Trousers (Tailored Wool Trouser)</td>
-                <td><a href="https://unsplash.com/@enginakyurt?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">engin akyurt</a></td>
-                <td><a href="https://unsplash.com/photos/woman-in-white-top-and-trousers-pRP3RLTYfoA?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+                <td>Trousers (Raw Selvedge Denim)</td>
+                <td><a href="https://unsplash.com/@blueeyeaa?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">TuanAnh Blue</a></td>
+                <td><a href="https://unsplash.com/photos/a-pair-of-black-jeans-sitting-on-top-of-a-white-surface-MmwrZZy7WtM?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+            </tr>
+            <tr>
+                <td>Trousers (Straight Leg Denim)</td>
+                <td><a href="https://unsplash.com/@claireabdo?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Claire Abdo</a></td>
+                <td><a href="https://unsplash.com/photos/a-stack-of-jeans-sitting-on-top-of-each-other-aWLTXw6kbDw?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
             </tr>
             <tr>
                 <td>Accessories (Signature Aviator Sunglasses)</td>
@@ -68,9 +85,34 @@
                 <td><a href="https://unsplash.com/photos/gold-framed-aviator-style-sunglasses-tzA2MfnYSb0?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
             </tr>
             <tr>
+                <td>Accessories (Vintage-Inspired Leather Watch)</td>
+                <td><a href="https://unsplash.com/@farazfayaz?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Faraz Fayaz</a></td>
+                <td><a href="https://unsplash.com/photos/a-black-minimalist-watch-with-a-leather-strap-3weffxf3mdk?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+            </tr>
+            <tr>
                 <td>Footwear (Performance Runner &mdash; Volt)</td>
                 <td><a href="https://unsplash.com/@gabrecameron?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Gabre Cameron</a></td>
                 <td><a href="https://unsplash.com/photos/black-running-shoe-with-white-sole-x-uaiiEkC-w?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+            </tr>
+            <tr>
+                <td>Outerwear (Cropped Denim Jacket)</td>
+                <td><a href="https://unsplash.com/@enginakyurt?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">engin akyurt</a></td>
+                <td><a href="https://unsplash.com/photos/a-pair-of-jeans-and-a-jean-jacket-on-a-white-background-LdekusMFSsA?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+            </tr>
+            <tr>
+                <td>Outerwear (Relaxed Linen Overshirt)</td>
+                <td><a href="https://unsplash.com/@linenese_lifestyle?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Robert Richman</a></td>
+                <td><a href="https://unsplash.com/photos/two-jackets-hanging-on-a-clothes-line-cYRsB4liZPs?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+            </tr>
+            <tr>
+                <td>Formalwear (Tailored Blazer)</td>
+                <td><a href="https://unsplash.com/@linenese_lifestyle?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Robert Richman</a></td>
+                <td><a href="https://unsplash.com/photos/a-row-of-shirts-hanging-on-a-clothes-line-Sibk_aCtL2Q?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
+            </tr>
+            <tr>
+                <td>Shirts (Cotton Oxford Shirt)</td>
+                <td><a href="https://unsplash.com/@pesce?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">Pesce Huang</a></td>
+                <td><a href="https://unsplash.com/photos/a-tan-collared-shirt-hanging-on-a-hanger-YCMct7DY9Bc?utm_source=adharshmart&amp;utm_medium=referral" target="_blank" rel="noopener">View on Unsplash</a></td>
             </tr>
         </tbody>
     </table>
